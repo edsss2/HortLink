@@ -34,7 +34,7 @@ export class UsuarioService {
   }
 
   /**
-   * Pega o valor atual do usuário (snapshot).
+   * Pega o valor atual do usuário.
    */
   getCurrentUser(): Usuario | null {
     return this.currentUser.value;
@@ -67,5 +67,16 @@ export class UsuarioService {
     }
     // Certifique-se de que a comparação de 'Role' está correta
     return usuario.role === Role.PRODUTOR || usuario.role === Role.COMERCIO;
+  }
+
+  /**
+   * Retorna a foto do usuário ou uma imagem padrão de avatar.
+   */
+  public getFotoPerfilUrl(): string {
+    const usuario = this.getCurrentUser();
+    if (usuario && usuario.urlFotoPerfil) {
+      return usuario.urlFotoPerfil;
+    }
+    return '/assets/perfil_not_found.png';
   }
 }

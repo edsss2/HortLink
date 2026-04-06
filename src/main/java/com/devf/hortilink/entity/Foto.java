@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -39,18 +38,12 @@ public class Foto {
     // --- Relacionamentos Polimórficos (Múltiplas FKs Nuláveis) ---
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produto_id", nullable = true) // Esta FK é NULL quando a imagem for de outro tipo
+    @JoinColumn(name = "produto_id", nullable = true)
     private Produto produto;
     
-    // 2. Imagem de Perfil de Comércio (Relacionamento: Um perfil tem UMA Imagem)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comercio_profile_id", nullable = true)
     private ComercioProfile comercioProfile;
-    
-    // 3. Imagem de Perfil de Usuário (Opcional: se o avatar do User for separado do ComercioProfile)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = true, unique = true)
-    private Usuario usuario;
 
 	public Long getId() {
 		return id;
@@ -107,15 +100,6 @@ public class Foto {
 	public void setComercioProfile(ComercioProfile comercioProfile) {
 		this.comercioProfile = comercioProfile;
 	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-    
     
     
 }

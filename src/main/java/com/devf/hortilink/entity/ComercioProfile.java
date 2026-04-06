@@ -4,7 +4,6 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,9 +20,8 @@ public class ComercioProfile {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private Usuario user;
+	@OneToMany(mappedBy = "comercioProfile", cascade = CascadeType.ALL)
+    private List<Usuario> users;
 	
 	private String nomeComercio;
 	private Integer raioMaximoEntregaKm;
@@ -34,7 +32,19 @@ public class ComercioProfile {
 	@OneToMany(mappedBy = "comercioProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Foto> fotos;
 	
+	@OneToOne
+	@JoinColumn(name = "foto_perfil_id")
+	private Foto fotoPerfil;
 	
+	
+	public Foto getFotoPerfil() {
+		return fotoPerfil;
+	}
+
+	public void setFotoPerfil(Foto fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
+	}
+
 	public void addOferta(Oferta oferta) {
 		this.ofertas.add(oferta);
 	}
@@ -64,12 +74,16 @@ public class ComercioProfile {
 		this.id = id;
 	}
 
-	public Usuario getUser() {
-		return user;
+	public List<Usuario> getUsers() {
+		return users;
 	}
 
-	public void setUser(Usuario user) {
-		this.user = user;
+	public void setUsers(List<Usuario> users) {
+		this.users = users;
+	}
+
+	public void setUser(Usuario usuario) {
+		this.users.add(usuario);
 	}
 
 	public String getNomeComercio() {

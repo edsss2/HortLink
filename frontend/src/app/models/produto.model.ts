@@ -10,5 +10,5 @@ export interface Produto {
     qtdDisponivel: number;
     qtdCarrinho?: number;
 
-    imageUrl: string;
+    imagemUrl: string;
 }

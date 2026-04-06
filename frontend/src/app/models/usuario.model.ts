@@ -8,4 +8,6 @@ export interface Usuario {
     role:Role | null;
     cadastroIncompleto?: boolean;
     comercioProfileId?: number;
+
+    urlFotoPerfil?: string;
 }

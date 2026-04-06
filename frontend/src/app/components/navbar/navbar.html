@@ -45,7 +45,7 @@
       <div class="relative inline-block">
         <button (click)="isDropdownOpen = !isDropdownOpen"
           class="flex text-sm rounded-full focus:ring-4 focus:ring-green-light md:me-0">
-          <img class="w-10 h-10 rounded-full" src="/assets/perfil_not_found.png" alt="user photo">
+          <img [src]="usuarioLogado?.urlFotoPerfil || '/assets/perfil_not_found.png'" alt="Foto de Perfil" class="w-10 h-10 rounded-full">
         </button>
 
         @if (isDropdownOpen) {

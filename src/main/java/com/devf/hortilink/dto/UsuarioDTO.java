@@ -12,6 +12,7 @@ public class UsuarioDTO {
 	private String role;
 	private Long comercioProfileId;
 	private Boolean cadastroIncompleto = false;
+	private String urlFotoPerfil;
 	
 	public static UsuarioDTO fromEntity(Usuario usuario) {
 		UsuarioDTO dto = new UsuarioDTO();
@@ -22,13 +23,19 @@ public class UsuarioDTO {
 		dto.setRole(usuario.getRole().name());
 		
 		boolean isVendedor = usuario.getRole() == Role.COMERCIO || usuario.getRole() == Role.PRODUTOR;
+		
 		if (isVendedor) {
-		    
+			
 		    if (usuario.getComercioProfile() == null) {
 		        dto.cadastroIncompleto = true;
 		    } else {
 		        dto.setComercioProfileId(usuario.getComercioProfile().getId());
+		        dto.setUrlFotoPerfil(usuario.getComercioProfile().getFotoPerfil().getCaminhoArquivo());
 		    }
+		    
+		    
+		} else {
+			dto.setUrlFotoPerfil(usuario.getFoto().getCaminhoArquivo());
 		}
 
 		
@@ -36,6 +43,12 @@ public class UsuarioDTO {
 	}
 	
 	
+	public String getUrlFotoPerfil() {
+		return urlFotoPerfil;
+	}
+	public void setUrlFotoPerfil(String urlFotoPerfil) {
+		this.urlFotoPerfil = urlFotoPerfil;
+	}
 	public Long getId() {
 		return id;
 	}

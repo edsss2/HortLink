@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.devf.hortilink.entity.ComercioProfile;
 import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Produto;
-import com.devf.hortilink.entity.Usuario;
 import com.devf.hortilink.repository.FotoRepository;
 import com.devf.hortilink.service.FotoService;
 import com.devf.hortilink.service.StorageService;
@@ -77,17 +76,6 @@ public class FotoServiceImpl implements FotoService {
             throw new RuntimeException("Falha ao salvar imagem: " + e.getMessage());
         }
 
-	}
-
-	@Override
-	public Foto salvarFotoUsuario(MultipartFile file, Usuario usuario, int ordem) {
-		try {
-			Foto foto = salvarFoto(file, ordem, "usuario", usuario.getId());
-			foto.setUsuario(usuario);
-			return repository.save(foto);
-        } catch (IOException e) {
-            throw new RuntimeException("Falha ao salvar imagem: " + e.getMessage());
-        }
 	}
 
 	@Override

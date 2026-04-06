@@ -10,8 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
 
 @Entity
 public class Usuario {
@@ -34,10 +34,12 @@ public class Usuario {
 	@JoinColumn(name = "endereco_id", nullable = true)
 	private Endereco endereco;
 	
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = true)
+	@ManyToOne
+	@JoinColumn(name = "comercio_profile_id", nullable = true)
 	private ComercioProfile comercioProfile;
 	
-	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "foto_id")
 	private Foto foto;
 	
 	

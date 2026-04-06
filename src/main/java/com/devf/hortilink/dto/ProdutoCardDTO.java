@@ -33,7 +33,7 @@ public class ProdutoCardDTO {
 		dto.setPromocao(oferta.getPromocao().toString());
 		dto.setOrganico(produto.getCertificadoOrganico());
 		dto.setUnidadeMedida(produto.getUnidadeMedida().getSimbolo());
-		dto.setTipoVendedor(comercio.getUser().getRole().getNome());
+		dto.setTipoVendedor(comercio.getUsers().getFirst().getRole().getNome());
 		dto.setQuantidadeDisponivel(oferta.getEstoqueAtual());
 		String caminhoDaFoto = produto.getFotoPrimaria().getCaminhoArquivo();
 		dto.setImageUrl("http://localhost:8080/uploads/" + caminhoDaFoto);
