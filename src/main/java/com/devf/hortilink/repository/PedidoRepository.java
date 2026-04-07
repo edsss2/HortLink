@@ -17,10 +17,10 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     long countByVendedorIdAndStatus(Long vendedorId, StatusPedido status);
 
     @Query("SELECT SUM(p.valorTotal), COUNT(p) FROM Pedido p " +
-           "WHERE p.vendedor.id = :vendedorId " +
-           "AND p.status = 'ENTREGUE' " +
-           "AND p.dataPedido >= :inicioMes")
-    Object[] findResumoMensal(Long vendedorId, LocalDateTime inicioMes);
+    	       "WHERE p.vendedor.id = :vendedorId " +
+    	       "AND p.status = 'ENTREGUE' " +
+    	       "AND p.dataPedido >= :inicioMes")
+    	Object findResumoMensal(Long vendedorId, LocalDateTime inicioMes); // Removido o []
     
     @Query("""
     	       SELECT CAST(p.dataPedido AS date) AS data, 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Para @if, @for, etc.
 
 // 1. Importe os componentes do PrimeNG
@@ -8,6 +8,8 @@ import { TableModule } from 'primeng/table'; // Para a lista de produto
 
 import { DashboardDTO } from '../../../../models/dto/dashboard.dto';
 import { DASHBOARD_MOCK_DATA } from '../../../../models/dto/dashboard.mock';
+import { ComercioService } from '../../../../services/comercio-service';
+import { UsuarioService } from '../../../../services/usuario-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,26 +17,56 @@ import { DASHBOARD_MOCK_DATA } from '../../../../models/dto/dashboard.mock';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard {
 
-  public dados: DashboardDTO = DASHBOARD_MOCK_DATA; // Carrega os dados mockados
-  public isLoading = false; // (Você pode mudar para true quando carregar da API)
+export class Dashboard implements OnInit {
 
-  // Variáveis para o gráfico
+  public dados: DashboardDTO | null = null;
+  public isLoading = true;
+
   public chartData: any;
   public chartOptions: any;
 
+  constructor(
+    private comercioService: ComercioService,
+    private usuarioService: UsuarioService
+  ) {}
+
   ngOnInit(): void {
-    // 4. Chame o método para configurar os dados do gráfico
-    this.configurarGrafico();
+    // 1. Pegamos o usuário logado
+    const usuarioLogado = this.usuarioService.getCurrentUser(); 
+
+    // 2. Verificamos se ele tem um comércio vinculado e chamamos a API
+    if (usuarioLogado && usuarioLogado.comercioProfileId) {
+      this.carregarDados(usuarioLogado.comercioProfileId);
+    } else {
+      console.error("ID do comércio não encontrado no usuário logado");
+      this.isLoading = false; 
+    }
+  }
+
+  carregarDados(id: number): void {
+    this.isLoading = true;
+    
+    this.comercioService.getDashboardData(id).subscribe({
+      next: (res: DashboardDTO) => {
+        this.dados = res;
+        // Só configuramos o gráfico DEPOIS que os dados chegam
+        this.configurarGrafico(); 
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error("Erro ao carregar dashboard", err);
+        this.isLoading = false;
+      }
+    });
   }
 
   configurarGrafico(): void {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const corDeFundo = 'rgba(74, 168, 79, 0.4)';
-    const corDaBorda = 'rgb(74, 168, 79)';
+    // Se chegou aqui via carregarDados, o 'dados' já está preenchido
+    if (!this.dados || !this.dados.vendasUltimos7Dias) return;
+
     
-    // Pega os dados mockados e transforma no formato que o Chart.js espera
+    
     const labels = this.dados.vendasUltimos7Dias.map(v => v.data);
     const data = this.dados.vendasUltimos7Dias.map(v => v.total);
 
@@ -46,19 +78,17 @@ export class Dashboard {
           data: data,
           backgroundColor: 'rgba(54, 162, 235, 0.2)', 
           borderColor: 'rgb(54, 162, 235)',
-          borderWidth: 1
+          borderWidth: 1,
+          fill: true
         }
       ]
     };
     
-    // Configurações visuais (opcional)
     this.chartOptions = {
+
       scales: {
-        y: {
-          beginAtZero: true
-        }
+        y: { beginAtZero: true }
       }
     };
   }
-
 }

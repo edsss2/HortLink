@@ -1,5 +1,6 @@
 package com.devf.hortilink.dto;
 
+import com.devf.hortilink.entity.ComercioProfile;
 import com.devf.hortilink.entity.Usuario;
 import com.devf.hortilink.enums.Role;
 
@@ -33,11 +34,17 @@ public class UsuarioDTO {
 		
 		if (isVendedor) {
 			
-		    if (usuario.getComercioProfile() == null) {
+			ComercioProfile cp = usuario.getComercioProfile();
+			
+		    if (cp == null) {
 		        dto.cadastroIncompleto = true;
 		    } else {
-		        dto.setComercioProfileId(usuario.getComercioProfile().getId());
-		        dto.setUrlFotoPerfil(usuario.getComercioProfile().getFotoPerfil().getCaminhoArquivo());
+		    	
+		    	if(cp.getFotoPerfil() != null) {
+		    		dto.setUrlFotoPerfil(cp.getFotoPerfil().getCaminhoArquivo());
+		    	}
+		    	
+		        dto.setComercioProfileId(cp.getId());
 		    }
 		    
 		    
