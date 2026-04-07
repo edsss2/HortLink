@@ -12,9 +12,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "ofertas")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Oferta {
 
 	@Id
@@ -40,64 +46,4 @@ public class Oferta {
     
     private Boolean disponivelParaVenda = true;
 
-    
-    
-    
-	//Getters e Setters
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public ComercioProfile getComercio() {
-		return comercio;
-	}
-
-	public void setComercio(ComercioProfile comercio) {
-		this.comercio = comercio;
-	}
-
-	public Produto getProduto() {
-		return produto;
-	}
-
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
-
-	public BigDecimal getValor() {
-		return valor;
-	}
-
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
-
-	public BigDecimal getPromocao() {
-		return promocao;
-	}
-
-	public void setPromocao(BigDecimal promocao) {
-		this.promocao = promocao;
-	}
-
-	public BigDecimal getEstoqueAtual() {
-		return estoqueAtual;
-	}
-
-	public void setEstoqueAtual(BigDecimal estoqueAtual) {
-		this.estoqueAtual = estoqueAtual;
-	}
-
-	public Boolean getDisponivelParaVenda() {
-		return disponivelParaVenda;
-	}
-
-	public void setDisponivelParaVenda(Boolean disponivelParaVenda) {
-		this.disponivelParaVenda = disponivelParaVenda;
-	}
-    
 }

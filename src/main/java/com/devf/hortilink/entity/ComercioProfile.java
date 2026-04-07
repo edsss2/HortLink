@@ -11,9 +11,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "comercios_profiles")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ComercioProfile {
 
 	@Id
@@ -37,14 +43,7 @@ public class ComercioProfile {
 	private Foto fotoPerfil;
 	
 	
-	public Foto getFotoPerfil() {
-		return fotoPerfil;
-	}
-
-	public void setFotoPerfil(Foto fotoPerfil) {
-		this.fotoPerfil = fotoPerfil;
-	}
-
+	
 	public void addOferta(Oferta oferta) {
 		this.ofertas.add(oferta);
 	}
@@ -57,59 +56,8 @@ public class ComercioProfile {
 		this.ofertas.removeIf(oferta -> oferta.getId().equals(idOferta));
 	}
 	
-	//Getters e Setters
-	public Long getId() {
-		return id;
-	}
-
-	public List<Foto> getFotos() {
-		return fotos;
-	}
-
-	public void setFotos(List<Foto> fotos) {
-		this.fotos = fotos;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public List<Usuario> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<Usuario> users) {
-		this.users = users;
-	}
-
 	public void setUser(Usuario usuario) {
 		this.users.add(usuario);
 	}
-
-	public String getNomeComercio() {
-		return nomeComercio;
-	}
-
-	public void setNomeComercio(String nomeComercio) {
-		this.nomeComercio = nomeComercio;
-	}
-
-	public Integer getRaioMaximoEntregaKm() {
-		return raioMaximoEntregaKm;
-	}
-
-	public void setRaioMaximoEntregaKm(Integer raioMaximoEntregaKm) {
-		this.raioMaximoEntregaKm = raioMaximoEntregaKm;
-	}
-
-
-	public List<Oferta> getOfertas() {
-		return ofertas;
-	}
-
-	public void setOfertas(List<Oferta> ofertas) {
-		this.ofertas = ofertas;
-	}
-	
 	
 }
