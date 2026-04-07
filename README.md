@@ -1,83 +1,65 @@
 <div align="center">
   <img src="public/logo_hortlink.png" alt="HortiLink Logo" width="400" />
-  <p><strong>Conectando produtores rurais a consumidores e mini-mercados.</strong></p>
+  <p><strong>Core API: Conectando produtores rurais a consumidores e mini-mercados.</strong></p>
 
   <p>
-    <a href="#-sobre-o-projeto">Sobre</a> •
+    <a href="#-sobre-a-api">Sobre</a> •
     <a href="#-tecnologias">Tecnologias</a> •
     <a href="#-funcionalidades">Funcionalidades</a> •
-    <a href="#-demonstração">Demonstração</a>
+    <a href="#-documentação">Documentação</a>
   </p>
 
   <p align="center">
     <img src="https://img.shields.io/badge/Status-Concluído-brightgreen?style=for-the-badge" alt="Status">
     <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
     <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot">
-    <img src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular">
-    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
-    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind">
     <img src="https://img.shields.io/badge/H2_Database-003B57?style=for-the-badge&logo=h2&logoColor=white" alt="H2">
   </p>
 </div>
 
 ---
 
-## 🚀 Sobre o Projeto
+## 🚀 Sobre a API
 
-O **HortiLink** é um marketplace digital inovador focado no setor de hortifrutis. O objetivo principal é conectar diretamente produtores rurais a mini-mercados e consumidores finais, visando reduzir o desperdício de alimentos e otimizar a cadeia de suprimentos através da tecnologia.
-
-O sistema é composto por:
-* **Back-end:** Gerencia regras de negócio, autenticação segura, persistência de dados e upload de imagens.
-* **Front-end:** Interface intuitiva e responsiva para facilitar a navegação de vendedores e compradores.
-
-🔗 **[Acessar Landing Page](https://edsss2.github.io/Landing-Page-HortiLInk/)**
-
----
+Este repositório contém o **Back-end** do projeto HortiLink. Desenvolvida em Spring Boot, esta API robusta gerencia todas as regras de negócio, persistência de dados e segurança necessária para o ecossistema HortiLink (Web e Mobile).
 
 ## 🛠 Tecnologias Utilizadas
 
-### Back-end
--   **Java 17+** & **Spring Boot 3**
--   **Spring Security + JWT**: Para autenticação e autorização robustas.
--   **JPA / Hibernate**: Para mapeamento objeto-relacional.
--   **H2 Database**: Banco de dados em memória para desenvolvimento.
--   **Swagger**: Documentação da API.
+- **Java 17+** & **Spring Boot 3**
+- **Spring Security + JWT**: Autenticação e autorização via tokens.
+- **JPA / Hibernate**: Persistência de dados e mapeamento ORM.
+- **H2 Database**: Banco de dados em memória para agilidade no desenvolvimento.
+- **Swagger (SpringDoc)**: Documentação interativa dos endpoints.
 
-### Front-end
--   **Angular 16+**: Framework SPA.
--   **TypeScript**: Tipagem estática.
--   **TailwindCSS**: Estilização.
+## 📦 Funcionalidades do Core
 
----
+- [x] **Gestão de Usuários:** Cadastro de produtores e consumidores com perfis distintos.
+- [x] **Segurança JWT:** Proteção de rotas e expiração de tokens.
+- [x] **CRUD de Produtos:** Gestão completa do catálogo de hortifrutis.
+- [x] **Upload de Imagens:** Processamento e armazenamento de fotos dos produtos.
+- [x] **Lógica de Dashboard:** Agregação de dados para métricas de vendas.
 
-## 📦 Funcionalidades Principais
+## 📖 Documentação (Swagger)
 
-- [x] **Autenticação Segura:** Login e cadastro com validação via Token JWT.
-- [x] **Catálogo de Produtos:** Listagem dinâmica com filtros por categoria.
-- [x] **Gestão de Imagens:** Upload e armazenamento físico das fotos dos produtos.
-- [x] **Dashboard do Vendedor:** Métricas de vendas e gestão de inventário.
-- [x] **Carrinho de Compras:** Fluxo completo de seleção e checkout.
-- [x] **Documentação API:** Interface Swagger interativa.
+Com a aplicação rodando localmente, acesse a documentação interativa para testar os endpoints:
+`http://localhost:8081/swagger-ui.html`
 
----
+## 📋 Pré-requisitos
+* **Java 17** ou superior.
+* **Maven** (gerenciador de dependências).
+* **IDE** (IntelliJ, VS Code ou Eclipse).
 
-## 🎥 Demonstração do Sistema
+## ⚙️ Como executar
+1. Clone este repositório.
+2. Certifique-se de que o **Front-end** [Hortlink-frontend](https://github.com/edsss2/HortLink-frontend) está configurado.
+3. No terminal da raiz do projeto, execute: `mvn spring-boot:run`.
+4. A API estará disponível em: `http://localhost:8081`.
 
-### 🛒 Fluxo de Compra
-> Demonstração do processo de escolha de produtos e finalização do pedido.
+## 🏗️ Arquitetura & Decisões
+- **Organização:** Arquitetura em camadas (Controller, Service, Repository, DTO).
+- **Padrões:** Uso de *Repository Pattern*, *Singleton* (Spring) e *DTOs* para tráfego de dados.
+- **Decisões:** Autenticação **Stateless (JWT)** para integração futura com Mobile e **Banco H2** para facilitar o setup inicial.
 
-![Demonstração de Compra](public/compra_hortlink.gif)
-
-<br />
-
-### 📊 Dashboard do Vendedor
-> Visão geral com métricas e indicadores para o produtor.
-
-![Dashboard do Vendedor](public/Dashboard_vendedor.png)
-
-<br />
-
-### 🍎 Cadastro de Produto
-> Interface para adicionar novos itens ao catálogo.
-
-![Cadastro de Produto](public/cadastro_produto.png)
+## 📦 Tecnologias & Funcionalidades
+- **Stack:** Java 17, Spring Boot 3, Spring Security, JPA/Hibernate, H2.
+- **Destaques:** Auth JWT, Upload de Imagens e Documentação Swagger.

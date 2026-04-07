@@ -1,5 +1,0 @@
-export enum Role {
-	PRODUTOR = 'PRODUTOR',
-	CONSUMIDOR = 'CONSUMIDOR',
-	COMERCIO = 'COMERCIO'
-}
