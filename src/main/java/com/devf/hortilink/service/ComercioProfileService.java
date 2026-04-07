@@ -21,5 +21,4 @@ public interface ComercioProfileService {
 	Oferta adicionarOferta(Long id, Long idProduto, Oferta oferta);
 	Oferta excluirOferta(Long idOferta);
 	List<Oferta> buscarOfertasPorId(Long id);
-	
 }

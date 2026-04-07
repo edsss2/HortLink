@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devf.hortilink.dto.ComercioDTO;
+import com.devf.hortilink.dto.DashboardDTO;
 import com.devf.hortilink.entity.ComercioProfile;
 import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Oferta;
 import com.devf.hortilink.entity.Usuario;
 import com.devf.hortilink.service.ComercioProfileService;
+import com.devf.hortilink.service.DashboardService;
 import com.devf.hortilink.service.UsuarioService;
 
 @RestController
@@ -31,6 +33,9 @@ public class ComercioProfileController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private DashboardService dashboardService;
 	
 	@GetMapping("/listar")
 	public ResponseEntity<List<ComercioProfile>> ListarComercios() {
@@ -75,6 +80,11 @@ public class ComercioProfileController {
 		return ResponseEntity.ok(ofertas);
 	}
 	
+	
+	@GetMapping("/dashboard/{comercioId}")
+    public ResponseEntity<DashboardDTO> getDashboard(@PathVariable Long comercioId) {
+        return ResponseEntity.ok(dashboardService.obterDadosDashboard(comercioId));
+    }
 	
 	
 }
