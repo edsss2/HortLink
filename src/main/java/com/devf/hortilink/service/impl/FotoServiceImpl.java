@@ -12,8 +12,8 @@ import com.devf.hortilink.entity.ComercioProfile;
 import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Produto;
 import com.devf.hortilink.repository.FotoRepository;
+import com.devf.hortilink.service.AzureBlobStorageService;
 import com.devf.hortilink.service.FotoService;
-import com.devf.hortilink.service.StorageService;
 
 @Service
 public class FotoServiceImpl implements FotoService {
@@ -22,7 +22,7 @@ public class FotoServiceImpl implements FotoService {
 	private FotoRepository repository;
 	
 	@Autowired
-	private StorageService storageService;
+	private AzureBlobStorageService storageService;
 
 	@Override
 	public Foto buscarPorId(Long id) {

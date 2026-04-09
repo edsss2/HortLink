@@ -1,0 +1,15 @@
+services:
+  hortlink-api:
+    build: .
+    image: edsss2/hortlink:1.2
+    container_name: hortlink-api
+    ports:
+      - "8081:8081"
+    environment:
+      - DB_URL=${DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      
+      - AZURE_STORAGE_CONNECTION_STRING=${STORAGE_CONNECTION_STRING}
+      - AZURE_STORAGE_CONTAINER_NAME=${STORAGE_CONTAINER_NAME}
+    restart: always

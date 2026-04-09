@@ -33,4 +33,7 @@ build/
 ### VS Code ###
 .vscode/
 
+### Varaveis de ambiente ###
+.env
+
 /uploads
