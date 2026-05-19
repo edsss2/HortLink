@@ -33,6 +33,8 @@ public class FotoServiceImpl implements FotoService {
 	@Override
 	public Foto excluirPorId(Long id) {
 		Foto foto = buscarPorId(id);
+		storageService.excluirArquivo(foto.getCaminhoArquivo());
+		
 		repository.delete(foto);
 		return foto;
 	}
@@ -46,7 +48,7 @@ public class FotoServiceImpl implements FotoService {
 	public Foto salvarFoto(MultipartFile file, int ordem, String entityType, Long idEntity) throws IOException {
         
         // 1. Salva no disco usando o StorageService
-        String caminhoRelativo = storageService.salvarArquivo(file, "produto", idEntity);
+        String caminhoRelativo = storageService.salvarArquivo(file, entityType, idEntity);
 
         // 2. Cria a entidade Foto
         Foto foto = new Foto();

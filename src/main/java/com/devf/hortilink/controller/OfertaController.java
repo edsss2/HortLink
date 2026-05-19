@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.devf.hortilink.dto.OfertaDTO;
 import com.devf.hortilink.dto.ProdutoCardDTO;
 import com.devf.hortilink.dto.ProdutoFormDTO;
 import com.devf.hortilink.entity.Oferta;
@@ -38,6 +39,13 @@ public class OfertaController {
 		}
 		return ResponseEntity.ok(produtosCard);
 	}
+	
+	@GetMapping
+    public ResponseEntity<List<OfertaDTO>> listarOfertas() {
+        List<OfertaDTO> ofertas = service.listarOfertasParaApp();
+        
+        return ResponseEntity.ok(ofertas);
+    }
 
 	@PostMapping("/carrinho")
 	public ResponseEntity<List<ProdutoCardDTO>> listarCarrinho(@RequestBody List<Long> ids) {

@@ -6,12 +6,14 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.devf.hortilink.dto.ProdutoMaisVendido;
 import com.devf.hortilink.dto.VendasPorDia;
 import com.devf.hortilink.entity.Pedido;
 import com.devf.hortilink.enums.StatusPedido;
 
+@Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     long countByVendedorIdAndStatus(Long vendedorId, StatusPedido status);

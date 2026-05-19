@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.devf.hortilink.dto.OfertaDTO;
 import com.devf.hortilink.dto.ProdutoCardDTO;
 import com.devf.hortilink.dto.ProdutoFormDTO;
 import com.devf.hortilink.entity.ComercioProfile;
@@ -73,6 +74,14 @@ public class OfertaServiceImpl implements OfertaService {
 
 	public List<ProdutoCardDTO> transformOfertas(List<Oferta> ofertas) {
 		return ofertas.stream().map(o -> ProdutoCardDTO.fromOferta(o)).collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<OfertaDTO> listarOfertasParaApp() {
+		List<Oferta> ofertas = repository.buscarTodasOfertasParaApp();
+		return ofertas.stream()
+                .map(oferta -> new OfertaDTO().fromEntity(oferta))
+                .collect(Collectors.toList());
 	}
 
 	@Override

@@ -58,4 +58,37 @@ public class AzureBlobStorageService {
         // 4. Retorna a URL final que será salva no banco SQL da HortLink
         return blobClient.getBlobUrl();
     }
+    
+    /**
+     * Exclui um arquivo da nuvem usando a sua URL absoluta
+     *
+     * @param fileUrl A URL completa do arquivo salva no banco de dados
+     */
+    public void excluirArquivo(String fileUrl) {
+        if (fileUrl == null || fileUrl.isEmpty()) {
+            return;
+        }
+
+        try {
+            BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
+                    .connectionString(connectionString)
+                    .buildClient();
+
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
+            // A URL salva é algo como: https://conta.blob.core.windows.net/hortilink/produto/1/uuid.jpg
+            // Precisamos extrair apenas o caminho do blob (ex: "produto/1/uuid.jpg")
+            String marcador = containerName + "/";
+            if (fileUrl.contains(marcador)) {
+                String blobName = fileUrl.substring(fileUrl.indexOf(marcador) + marcador.length());
+                
+                BlobClient blobClient = containerClient.getBlobClient(blobName);
+                
+                // deleteIfExists é mais seguro. Se o arquivo já não estiver lá, ele não quebra a API
+                blobClient.deleteIfExists();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Falha ao excluir o arquivo da Azure: " + fileUrl, e);
+        }
+    }
 }
