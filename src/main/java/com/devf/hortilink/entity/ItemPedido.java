@@ -2,6 +2,8 @@ package com.devf.hortilink.entity;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,7 @@ public class ItemPedido {
 	
 	@ManyToOne
 	@JoinColumn(name = "pedido_id")
+	@JsonIgnore
 	private Pedido pedido;
 		
 	@ManyToOne
@@ -37,6 +40,17 @@ public class ItemPedido {
 	@NotNull
 	private BigDecimal precoUnitario;
 	
-	@NotNull
-	private BigDecimal subtotal;
+	/**
+	 * Método calculado em tempo de execução.
+	 * Não gera coluna no banco, mas aparece no JSON da API.
+	 */
+	public BigDecimal getSubtotal() {
+		if (this.precoUnitario == null || this.quantidade == null) {
+			return BigDecimal.ZERO;
+		}
+		return this.precoUnitario.multiply(BigDecimal.valueOf(this.quantidade));
+	}
+	
+	
+	
 }

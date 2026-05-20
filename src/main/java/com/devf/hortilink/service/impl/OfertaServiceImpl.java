@@ -67,11 +67,6 @@ public class OfertaServiceImpl implements OfertaService {
 		return repository.save(oferta);
 	}
 
-	@Override
-	public List<Oferta> buscarCarrinho(List<Long> ids) {
-		return repository.findByProdutoIdIn(ids);
-	}
-
 	public List<ProdutoCardDTO> transformOfertas(List<Oferta> ofertas) {
 		return ofertas.stream().map(o -> ProdutoCardDTO.fromOferta(o)).collect(Collectors.toList());
 	}
@@ -86,8 +81,7 @@ public class OfertaServiceImpl implements OfertaService {
 
 	@Override
 	@Transactional 
-	public void salvarNovoProduto(String emailUsuario, ProdutoFormDTO formData, MultipartFile imagemPrincipal,
-	        List<MultipartFile> imagensAdicionais) {
+	public void salvarNovoProduto(String emailUsuario, ProdutoFormDTO formData, MultipartFile imagem) {
 	    Usuario usuario = userService.buscarPorEmail(emailUsuario);
 	    ComercioProfile comercioProfile = usuario.getComercioProfile();
 
@@ -113,24 +107,11 @@ public class OfertaServiceImpl implements OfertaService {
 
 	    oferta.setProduto(produtoSalvo);
 
-	    List<Foto> fotosSalvas = new ArrayList<>();
-	    Foto foto = fotoService.salvarFotoProduto(imagemPrincipal, produtoSalvo, 0);
-	    fotosSalvas.add(foto);
+	    Foto foto = fotoService.salvarFotoProduto(imagem, produtoSalvo, 0);
 
-	    int ordem = 1;
-	    if (imagensAdicionais != null) {
-	        for (MultipartFile file : imagensAdicionais) {
-	            if (file != null && !file.isEmpty()) {
-	                fotosSalvas.add(
-	                    fotoService.salvarFotoProduto(file, produtoSalvo, ordem++)
-	                );
-	            }
-	        }
-	    }
 
 	    repository.save(oferta);
-	    
-	    produtoSalvo.setFotos(fotosSalvas);
+
 	    produtoRepository.save(produtoSalvo); 
 
 	}

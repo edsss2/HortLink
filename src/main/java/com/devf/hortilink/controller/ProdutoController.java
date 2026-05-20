@@ -32,12 +32,6 @@ public class ProdutoController {
 		return ResponseEntity.ok(produtos);
 	}
 	
-	@GetMapping("/carrinho")
-	public ResponseEntity<List<Produto>> buscarCarrinho(@RequestBody List<Long> ids) {
-		List<Produto> produtos = service.buscarCarrinho(ids);
-		return ResponseEntity.ok(produtos);
-	}
-	
 	@PostMapping("/salvar")
 	public ResponseEntity<Produto> salvarProduto(@RequestBody Produto produto) {
 		Produto salvo = service.salvar(produto);
@@ -66,10 +60,10 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/{id}/fotos")
-	public ResponseEntity<List<Foto>> fotosProduto(@PathVariable Long id) {
-		List<Foto> fotos = service.buscarFotosPorId(id);
+	public ResponseEntity<Foto> fotosProduto(@PathVariable Long id) {
+		Foto foto = service.buscarFotosPorId(id);
 		
-		return ResponseEntity.ok(fotos);
+		return ResponseEntity.ok(foto);
 	}
 	
 }

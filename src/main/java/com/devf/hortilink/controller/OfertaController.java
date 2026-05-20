@@ -47,12 +47,6 @@ public class OfertaController {
         return ResponseEntity.ok(ofertas);
     }
 
-	@PostMapping("/carrinho")
-	public ResponseEntity<List<ProdutoCardDTO>> listarCarrinho(@RequestBody List<Long> ids) {
-		List<ProdutoCardDTO> produtosCard = service.transformOfertas(service.buscarCarrinho(ids));
-		return ResponseEntity.ok(produtosCard);
-	}
-
 	@PostMapping("/atualizar")
 	public ResponseEntity<Oferta> atualizarOferta(@RequestBody Oferta oferta) {
 		Oferta salvo = service.atualizar(oferta);
@@ -66,11 +60,11 @@ public class OfertaController {
 	@PostMapping("/salvar")
 	public ResponseEntity<Void> salvar(@RequestPart("produto") ProdutoFormDTO produtoData, 
 	        @RequestPart("imagemPrincipal") MultipartFile imagemPrincipal,
-	        @RequestPart(value = "imagensAdicionais", required = false) List<MultipartFile> imagensAdicionais,
-	        Principal principal) {
+	        List<MultipartFile> imagensAdicionais, Principal principal) {
+		
 		String emailUsuario = principal.getName();
 		
-		service.salvarNovoProduto(emailUsuario, produtoData, imagemPrincipal, imagensAdicionais);
+		service.salvarNovoProduto(emailUsuario, produtoData, imagemPrincipal);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}

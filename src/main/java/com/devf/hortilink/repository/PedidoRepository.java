@@ -44,4 +44,10 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     	       ORDER BY quantidadeVendida DESC
     	       """)
     	List<ProdutoMaisVendido> findTop5Produtos(Long vendedorId, Pageable pageable);
+    
+    // Para o histórico de compras do usuário
+    List<Pedido> findByClienteIdOrderByDataPedidoDesc(Long clienteId);
+    
+    // Para o painel de vendas do comércio
+    List<Pedido> findByVendedorIdOrderByDataPedidoDesc(Long vendedorId);
 }

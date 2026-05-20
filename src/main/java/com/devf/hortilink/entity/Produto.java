@@ -1,7 +1,6 @@
 package com.devf.hortilink.entity;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,10 +12,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
@@ -56,13 +58,11 @@ public class Produto {
 	@NotNull
     private UnidadeMedida unidadeMedida;
 
-	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Foto> fotos;
+	@OneToOne(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Foto foto;
 	
-	public Foto getFotoPrimaria() {
-	    return this.fotos.stream()
-	        .filter(f -> f.getOrdemExibicao() == 0)
-	        .findFirst()
-	        .orElse(null);
-	}
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comercio_profile_id", nullable = false) // nullable = false garante que todo produto tenha um dono
+    private ComercioProfile comercio;
+
 }

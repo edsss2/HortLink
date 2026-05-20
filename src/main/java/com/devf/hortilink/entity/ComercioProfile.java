@@ -42,6 +42,9 @@ public class ComercioProfile {
 	@JoinColumn(name = "foto_perfil_id")
 	private Foto fotoPerfil;
 	
+	@OneToMany(mappedBy = "comercio", cascade = CascadeType.ALL)
+	private List<Produto> produtos;
+	
 	
 	
 	public void addOferta(Oferta oferta) {

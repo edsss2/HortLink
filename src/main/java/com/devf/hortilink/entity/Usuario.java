@@ -48,4 +48,7 @@ public class Usuario {
 	@JoinColumn(name = "foto_id")
 	private Foto foto;
 	
+	@OneToOne(mappedBy = "comprador", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Carrinho carrinho;
+	
 }

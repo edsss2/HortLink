@@ -47,4 +47,16 @@ public class Pedido {
 	
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
+	
+	public void addItem(ItemPedido item) {
+		this.itens.add(item);
+	}
+	
+	public void removeItem(ItemPedido item) {
+		this.itens.remove(item);
+	}
+	
+	public void removeItem(Long idItem) {
+		this.itens.removeIf(item -> item.getId().equals(idItem));
+	}
 }

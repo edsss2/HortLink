@@ -44,8 +44,8 @@ public class ProdutoCardDTO {
 		dto.setTipoVendedor(comercio.getUsers().getFirst().getRole().getNome());
 		dto.setQuantidadeDisponivel(oferta.getEstoqueAtual());
 		
-		if(produto.getFotoPrimaria() != null) {
-			caminhoDaFoto = produto.getFotoPrimaria().getCaminhoArquivo();
+		if(produto.getFoto() != null) {
+			caminhoDaFoto = produto.getFoto().getCaminhoArquivo();
 		}
 		
 		if(caminhoDaFoto != null) {

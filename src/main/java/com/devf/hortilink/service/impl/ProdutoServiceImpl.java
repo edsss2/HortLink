@@ -42,9 +42,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 	}
 
 	@Override
-	public List<Foto> buscarFotosPorId(Long id) {
+	public Foto buscarFotosPorId(Long id) {
 		Produto produto = buscarPorId(id);
-		return produto.getFotos();
+		return produto.getFoto();
 	}
 
 	@Override

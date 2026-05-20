@@ -37,7 +37,7 @@ public class OfertaDTO {
 		dto.setDescricao(produto.getDescricao());
 		dto.setUnidade(produto.getUnidadeMedida().getLabel());
 		
-		Foto fotoPrincipal = produto.getFotoPrimaria();
+		Foto fotoPrincipal = produto.getFoto();
 		if (fotoPrincipal != null) {
 		    dto.setFotoUrl(fotoPrincipal.getCaminhoArquivo());
 		} else {

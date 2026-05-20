@@ -11,6 +11,6 @@ public interface ProdutoService {
 	Produto buscarPorId(Long id);
 	Produto	excluirPorId(Long id);
 	Produto salvar(Produto produto);
-	List<Foto> buscarFotosPorId(Long id);
+	Foto buscarFotosPorId(Long id);
 	List<Produto> buscarCarrinho(List<Long> ids);
 }

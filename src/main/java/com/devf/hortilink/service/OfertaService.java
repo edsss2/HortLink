@@ -15,9 +15,8 @@ public interface OfertaService {
 	Oferta buscarPorId(Long id);
 	Oferta excluirPorId(Long id);
 	Oferta atualizar(Oferta oferta);
-	List<Oferta> buscarCarrinho(List<Long> ids);
 	List<ProdutoCardDTO> transformOfertas(List<Oferta> ofertas);
-	void salvarNovoProduto(String emailUsuario, ProdutoFormDTO formData, MultipartFile imagemPrincipal, List<MultipartFile> imagensAdicionais);
+	void salvarNovoProduto(String emailUsuario, ProdutoFormDTO formData, MultipartFile imagem);
 	List<OfertaDTO> listarOfertasParaApp();
 	
 }
