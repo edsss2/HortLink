@@ -1,48 +1,25 @@
 package com.devf.hortilink.service.impl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.devf.hortilink.dto.DetalheOfertaDTO;
 import com.devf.hortilink.dto.OfertaDTO;
 import com.devf.hortilink.dto.ProdutoCardDTO;
-import com.devf.hortilink.dto.ProdutoFormDTO;
-import com.devf.hortilink.entity.ComercioProfile;
-import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Oferta;
-import com.devf.hortilink.entity.Produto;
-import com.devf.hortilink.entity.Usuario;
-import com.devf.hortilink.enums.Categoria;
-import com.devf.hortilink.enums.UnidadeMedida;
 import com.devf.hortilink.repository.OfertaRepository;
-import com.devf.hortilink.repository.ProdutoRepository;
-import com.devf.hortilink.service.FotoService;
 import com.devf.hortilink.service.OfertaService;
-import com.devf.hortilink.service.UsuarioService;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class OfertaServiceImpl implements OfertaService {
 
 	@Autowired
 	private OfertaRepository repository;
-
-	@Autowired
-	private UsuarioService userService;
-
-	@Autowired
-	private FotoService fotoService;
-
-	@Autowired
-	private ProdutoRepository produtoRepository;
 
 	@Override
 	public List<Oferta> listarTodos() {
@@ -78,42 +55,14 @@ public class OfertaServiceImpl implements OfertaService {
                 .map(oferta -> new OfertaDTO().fromEntity(oferta))
                 .collect(Collectors.toList());
 	}
-
+	
 	@Override
-	@Transactional 
-	public void salvarNovoProduto(String emailUsuario, ProdutoFormDTO formData, MultipartFile imagem) {
-	    Usuario usuario = userService.buscarPorEmail(emailUsuario);
-	    ComercioProfile comercioProfile = usuario.getComercioProfile();
-
-	    Produto produto = new Produto();
-	    produto.setNome(formData.getNome());
-	    produto.setDescricao(formData.getDescricao());
-	    produto.setDataColheita(formData.getDataColheira());
-	    produto.setCertificadoOrganico(formData.getIsOrganico());
-
-	    Categoria categoriaEnum = Categoria.valueOf(formData.getCategoria());
-	    UnidadeMedida unMedidaEnum = UnidadeMedida.valueOf(formData.getUnidadeMedida());
-
-	    produto.setCategoria(categoriaEnum);
-	    produto.setUnidadeMedida(unMedidaEnum);
-
-	    Produto produtoSalvo = produtoRepository.save(produto);
-
-	    Oferta oferta = new Oferta();
-	    oferta.setComercio(comercioProfile);
-	    oferta.setValor(formData.getPreco());
-	    oferta.setPromocao(formData.getPromocao());
-	    oferta.setEstoqueAtual(BigDecimal.valueOf(formData.getQuantidade()));
-
-	    oferta.setProduto(produtoSalvo);
-
-	    Foto foto = fotoService.salvarFotoProduto(imagem, produtoSalvo, 0);
-
-
-	    repository.save(oferta);
-
-	    produtoRepository.save(produtoSalvo); 
-
+	public DetalheOfertaDTO buscarOfertaDetalhadaPorId(Long id) {
+		Oferta oferta = repository.buscarOfertaDetalhadaPorId(id).orElseThrow();
+		DetalheOfertaDTO dto = new DetalheOfertaDTO();
+		return dto.fromEntity(oferta);
 	}
+
+
 
 }

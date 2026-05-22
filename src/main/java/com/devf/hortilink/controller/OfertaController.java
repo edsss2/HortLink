@@ -1,11 +1,9 @@
 package com.devf.hortilink.controller;
 
 import java.net.URI;
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.devf.hortilink.dto.DetalheOfertaDTO;
 import com.devf.hortilink.dto.OfertaDTO;
 import com.devf.hortilink.dto.ProdutoCardDTO;
-import com.devf.hortilink.dto.ProdutoFormDTO;
 import com.devf.hortilink.entity.Oferta;
 import com.devf.hortilink.service.OfertaService;
 
@@ -57,17 +53,6 @@ public class OfertaController {
 		return ResponseEntity.created(location).body(salvo);
 	}
 
-	@PostMapping("/salvar")
-	public ResponseEntity<Void> salvar(@RequestPart("produto") ProdutoFormDTO produtoData, 
-	        @RequestPart("imagemPrincipal") MultipartFile imagemPrincipal,
-	        List<MultipartFile> imagensAdicionais, Principal principal) {
-		
-		String emailUsuario = principal.getName();
-		
-		service.salvarNovoProduto(emailUsuario, produtoData, imagemPrincipal);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Oferta> buscarPorId(@PathVariable Long id) {
@@ -81,6 +66,13 @@ public class OfertaController {
 		service.excluirPorId(id);
 
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/detalhes/{id}")
+	public ResponseEntity<DetalheOfertaDTO> buscarOfertaDetalhadaPorId(@PathVariable Long id) {
+		DetalheOfertaDTO dto = service.buscarOfertaDetalhadaPorId(id);
+		
+		return ResponseEntity.ok(dto);
 	}
 
 }

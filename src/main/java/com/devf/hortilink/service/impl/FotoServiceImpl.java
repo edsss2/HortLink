@@ -45,7 +45,7 @@ public class FotoServiceImpl implements FotoService {
 		return foto.getCaminhoArquivo();
 	}
 	
-	public Foto salvarFoto(MultipartFile file, int ordem, String entityType, Long idEntity) throws IOException {
+	public Foto salvarFoto(MultipartFile file, String entityType, Long idEntity) throws IOException {
         
         // 1. Salva no disco usando o StorageService
         String caminhoRelativo = storageService.salvarArquivo(file, entityType, idEntity);
@@ -55,7 +55,6 @@ public class FotoServiceImpl implements FotoService {
         foto.setNomeArquivo(extrairNomeUnico(caminhoRelativo));
         foto.setCaminhoArquivo(caminhoRelativo);
         foto.setTipoConteudo(file.getContentType());
-        foto.setOrdemExibicao(ordem);
 
         return foto;
     }
@@ -69,9 +68,9 @@ public class FotoServiceImpl implements FotoService {
 	}
 
 	@Override
-	public Foto salvarFotoProduto(MultipartFile file, Produto produto, int ordem) {
+	public Foto salvarFotoProduto(MultipartFile file, Produto produto) {
 		try {
-			Foto foto = salvarFoto(file, ordem, "produto", produto.getId());
+			Foto foto = salvarFoto(file, "produto", produto.getId());
 			foto.setProduto(produto);
 			return repository.save(foto);
         } catch (IOException e) {
@@ -81,9 +80,9 @@ public class FotoServiceImpl implements FotoService {
 	}
 
 	@Override
-	public Foto salvarFotoComercio(MultipartFile file, ComercioProfile comercio, int ordem) {
+	public Foto salvarFotoComercio(MultipartFile file, ComercioProfile comercio) {
 		try {
-			Foto foto = salvarFoto(file, ordem, "comercio", comercio.getId());
+			Foto foto = salvarFoto(file, "comercio", comercio.getId());
 			foto.setComercioProfile(comercio);
 			return repository.save(foto);
         } catch (IOException e) {

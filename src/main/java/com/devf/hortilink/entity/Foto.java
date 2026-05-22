@@ -37,9 +37,6 @@ public class Foto {
     @NotBlank
     @Column(name = "tipo_conteudo", nullable = false, length = 50)
     private String tipoConteudo; // MIME Type
-
-    @Column(name = "ordem_exibicao") 
-    private Integer ordemExibicao;
     
     
     // --- Relacionamentos Polimórficos (Múltiplas FKs Nuláveis) ---

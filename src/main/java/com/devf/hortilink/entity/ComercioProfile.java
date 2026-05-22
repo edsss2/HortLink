@@ -31,6 +31,7 @@ public class ComercioProfile {
 	
 	private String nomeComercio;
 	private Integer raioMaximoEntregaKm;
+	private String telefone;
 	
 	@OneToMany(mappedBy = "comercio", cascade = CascadeType.ALL)
     private List<Oferta> ofertas;

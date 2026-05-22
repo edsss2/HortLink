@@ -1,6 +1,9 @@
 package com.devf.hortilink.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,7 +46,11 @@ public class Oferta {
 	
 	@NotNull
     @DecimalMin("0.00")
-    private BigDecimal estoqueAtual; 
+    private BigDecimal estoqueAtual;
+	
+	@PastOrPresent
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dataColheita;
     
     private Boolean disponivelParaVenda = true;
 

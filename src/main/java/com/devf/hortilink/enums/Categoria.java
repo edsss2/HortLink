@@ -17,4 +17,9 @@ public enum Categoria {
 		return nome;
 	}
 	
+	@Override
+    public String toString() {
+        return nome; // Aparece bonitinho com a primeira letra maiúscula
+    }
+	
 }

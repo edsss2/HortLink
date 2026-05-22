@@ -39,7 +39,6 @@ public class ProdutoCardDTO {
 		dto.setNomeComercio(comercio.getNomeComercio());
 		dto.setValor(oferta.getValor().toString());
 		dto.setPromocao(oferta.getPromocao().toString());
-		dto.setOrganico(produto.getCertificadoOrganico());
 		dto.setUnidadeMedida(produto.getUnidadeMedida().getSimbolo());
 		dto.setTipoVendedor(comercio.getUsers().getFirst().getRole().getNome());
 		dto.setQuantidadeDisponivel(oferta.getEstoqueAtual());

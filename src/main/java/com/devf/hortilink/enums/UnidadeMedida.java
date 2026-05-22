@@ -28,4 +28,11 @@ public enum UnidadeMedida {
         return label;
     }
 	
+    @Override
+    public String toString() {
+        // É isso que vai aparecer escrito na lista do produtor!
+        return label + " (" + simbolo + ")"; 
+        // Exemplo: "Quilograma (Kg)"
+    }
+    
 }

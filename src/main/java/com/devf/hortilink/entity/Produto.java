@@ -1,9 +1,5 @@
 package com.devf.hortilink.entity;
 
-import java.time.LocalDate;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.devf.hortilink.enums.Categoria;
 import com.devf.hortilink.enums.UnidadeMedida;
 
@@ -20,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,13 +36,6 @@ public class Produto {
 	
 	@Size(max = 250)
 	private String descricao;
-	
-	@PastOrPresent
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dataColheita;
-	
-
-	private Boolean certificadoOrganico = false;
 	
 	@Enumerated(EnumType.STRING)
 	@NotNull

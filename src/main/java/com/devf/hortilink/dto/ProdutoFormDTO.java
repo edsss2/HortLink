@@ -1,7 +1,9 @@
 package com.devf.hortilink.dto;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import com.devf.hortilink.enums.Categoria;
+import com.devf.hortilink.enums.UnidadeMedida;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,11 +18,7 @@ public class ProdutoFormDTO {
 	private String nome;
 	private String descricao;
 	private LocalDate dataColheira;
-	private Boolean isOrganico;
-	private String categoria;
-	private String unidadeMedida;
-	private BigDecimal preco;
-	private BigDecimal promocao;
-	private Integer quantidade;
+	private Categoria categoria;
+	private UnidadeMedida unidadeMedida;
 	
 }

@@ -1,19 +1,21 @@
 package com.devf.hortilink.controller;
 
-import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.devf.hortilink.dto.ProdutoFormDTO;
 import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Produto;
 import com.devf.hortilink.service.ProdutoService;
@@ -25,24 +27,23 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService service;
 	
-	@GetMapping("/listar")
-	public ResponseEntity<List<Produto>> listarProdutos() {
-		List<Produto> produtos = service.listarTodos();
+	@GetMapping
+	public ResponseEntity<List<Produto>> listarProdutos(Principal principal) {
+		String emailUsuario = principal.getName();
+		List<Produto> produtos = service.listarProdutosPorComercio(emailUsuario);
 		
 		return ResponseEntity.ok(produtos);
 	}
 	
 	@PostMapping("/salvar")
-	public ResponseEntity<Produto> salvarProduto(@RequestBody Produto produto) {
-		Produto salvo = service.salvar(produto);
+	public ResponseEntity<Void> salvar(@RequestPart("produto") ProdutoFormDTO produtoData, 
+	        @RequestPart("imagem") MultipartFile imagem, Principal principal) {
 		
-		URI location = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path("/{id}")
-				.buildAndExpand(salvo.getId())
-				.toUri();
+		String emailUsuario = principal.getName();
 		
-		return ResponseEntity.created(location).body(salvo);
+		service.salvar(emailUsuario, produtoData, imagem);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
 	@GetMapping("/{id}")
@@ -59,9 +60,9 @@ public class ProdutoController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@GetMapping("/{id}/fotos")
-	public ResponseEntity<Foto> fotosProduto(@PathVariable Long id) {
-		Foto foto = service.buscarFotosPorId(id);
+	@GetMapping("/{id}/foto")
+	public ResponseEntity<Foto> fotoProduto(@PathVariable Long id) {
+		Foto foto = service.buscarFotoPorId(id);
 		
 		return ResponseEntity.ok(foto);
 	}

@@ -11,7 +11,7 @@ public interface FotoService {
 	Foto buscarPorId(Long id);
 	Foto excluirPorId(Long id);
 	String buscarUrlPorId(Long id);
-	Foto salvarFotoProduto(MultipartFile file, Produto produto, int ordem);
-	Foto salvarFotoComercio(MultipartFile file, ComercioProfile comercio, int ordem);
+	Foto salvarFotoProduto(MultipartFile file, Produto produto);
+	Foto salvarFotoComercio(MultipartFile file, ComercioProfile comercio);
 	
 }
