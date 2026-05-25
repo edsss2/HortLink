@@ -62,6 +62,16 @@ public class OfertaServiceImpl implements OfertaService {
 		DetalheOfertaDTO dto = new DetalheOfertaDTO();
 		return dto.fromEntity(oferta);
 	}
+	
+	@Override
+	public List<OfertaDTO> buscarOfertasPorComercioId(Long id) {
+		List<Oferta> ofertas = repository.buscarOfertasByComercioId(id);
+		
+		return ofertas.stream()
+				.map(oferta -> new OfertaDTO().fromEntity(oferta))
+				.collect(Collectors.toList());
+	}
+
 
 
 

@@ -15,7 +15,6 @@ public class UsuarioDTO {
 
 	private Long id;
 	private String nome;
-	private String telefone;
 	private String email;
 	private String role;
 	private Long comercioProfileId;
@@ -26,7 +25,6 @@ public class UsuarioDTO {
 		UsuarioDTO dto = new UsuarioDTO();
 		dto.setId(usuario.getId());
 		dto.setNome(usuario.getNome());
-		dto.setTelefone(usuario.getTelefone());
 		dto.setEmail(usuario.getEmail());
 		dto.setRole(usuario.getRole().name());
 		

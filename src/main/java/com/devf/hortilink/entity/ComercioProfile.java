@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,11 +36,8 @@ public class ComercioProfile {
 	
 	@OneToMany(mappedBy = "comercio", cascade = CascadeType.ALL)
     private List<Oferta> ofertas;
-
-	@OneToMany(mappedBy = "comercioProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Foto> fotos;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "foto_perfil_id")
 	private Foto fotoPerfil;
 	

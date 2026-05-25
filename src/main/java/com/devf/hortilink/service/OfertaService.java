@@ -13,6 +13,7 @@ public interface OfertaService {
 	Oferta buscarPorId(Long id);
 	Oferta excluirPorId(Long id);
 	Oferta atualizar(Oferta oferta);
+	List<OfertaDTO> buscarOfertasPorComercioId(Long id);
 	List<ProdutoCardDTO> transformOfertas(List<Oferta> ofertas);
 	List<OfertaDTO> listarOfertasParaApp();
 	DetalheOfertaDTO buscarOfertaDetalhadaPorId(Long id);

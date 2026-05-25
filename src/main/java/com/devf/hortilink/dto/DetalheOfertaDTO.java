@@ -15,6 +15,7 @@ public class DetalheOfertaDTO {
     private String nomeProdutor;
     private String cidadeUf;
     private String telefone;
+    private Long comercioId;
     
     public DetalheOfertaDTO fromEntity(Oferta oferta) {
         DetalheOfertaDTO dto = new DetalheOfertaDTO();
@@ -28,6 +29,7 @@ public class DetalheOfertaDTO {
         dto.setDescricao(produto.getDescricao());
         dto.setNomeProdutor(comercio.getNomeComercio());
         dto.setTelefone(comercio.getTelefone());
+        dto.setId(comercio.getId());
 
         // Validação de segurança para não dar Crash (IndexOutOfBoundsException)
         if (comercio.getUsers() != null && !comercio.getUsers().isEmpty()) {
@@ -42,6 +44,15 @@ public class DetalheOfertaDTO {
         return dto;
     }
     
+    
+    
+    
+	public Long getComercioId() {
+		return comercioId;
+	}
+	public void setComercioId(Long comercioId) {
+		this.comercioId = comercioId;
+	}
 	public Long getId() {
 		return id;
 	}

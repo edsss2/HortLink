@@ -16,16 +16,20 @@ public interface OfertaRepository extends JpaRepository<Oferta, Long> {
 
 	List<Oferta> findByProdutoIdIn(List<Long> productIds);
 	
-	@EntityGraph(attributePaths = {"produto", "produto.fotos"})
+	@EntityGraph(attributePaths = {"produto", "produto.foto"})
     @Query("SELECT o FROM Oferta o")
     List<Oferta> buscarTodasOfertasParaApp();
 	
-	@Query("SELECT o FROM Oferta o " +
-	           "JOIN FETCH o.produto " +
-	           "JOIN FETCH o.comercio c " +
-	           "JOIN FETCH c.users u " +
-	           "JOIN FETCH u.endereco " +
-	           "WHERE o.id = :id")
+	@EntityGraph(attributePaths = {"produto", "produto.foto"})
+	@Query("SELECT o FROM Oferta o WHERE o.comercio.id = :comercioId")
+	List<Oferta> buscarOfertasByComercioId(@Param("comercioId") Long comercioId);
+	
+	@EntityGraph(attributePaths = {
+	        "produto", 
+	        "produto.foto",
+	        "comercio.users.endereco"
+	})
+	@Query("SELECT o FROM Oferta o WHERE o.id = :id")
 	Optional<Oferta> buscarOfertaDetalhadaPorId(@Param("id") Long id);
 	
 }

@@ -42,6 +42,13 @@ public class OfertaController {
         
         return ResponseEntity.ok(ofertas);
     }
+	
+	@GetMapping("/comercio/{comercioId}")
+	public ResponseEntity<List<OfertaDTO>> ofertasComercio(@PathVariable Long id) {
+		List<OfertaDTO> ofertas = service.buscarOfertasPorComercioId(id);
+		
+		return ResponseEntity.ok(ofertas);
+	}
 
 	@PostMapping("/atualizar")
 	public ResponseEntity<Oferta> atualizarOferta(@RequestBody Oferta oferta) {
