@@ -10,5 +10,5 @@ import com.devf.hortilink.entity.Produto;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-	List<Produto> findByComercioProfileId(Long comercioId);
+	List<Produto> findByComercioId(Long comercioId);
 }

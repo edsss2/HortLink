@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.devf.hortilink.dto.RegistroDTO;
 import com.devf.hortilink.dto.UsuarioDTO;
 import com.devf.hortilink.entity.Usuario;
 import com.devf.hortilink.service.UsuarioService;
@@ -50,8 +51,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Usuario usuario) {
-        usuarioService.salvar(usuario); // implemente para salvar com senha criptografada
+    public ResponseEntity<?> register(@RequestBody RegistroDTO dto) {
+        usuarioService.salvar(dto); // implemente para salvar com senha criptografada
         return ResponseEntity.ok("Usuário registrado com sucesso!");
     }
     

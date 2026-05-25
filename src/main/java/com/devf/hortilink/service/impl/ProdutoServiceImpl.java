@@ -37,7 +37,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 		Usuario usuario = userService.buscarPorEmail(emailUsuario);
 	    Long comercioId = usuario.getComercioProfile().getId();
 	    
-		return repository.findByComercioProfileId(comercioId);
+		return repository.findByComercioId(comercioId);
 	}
 
 	@Override

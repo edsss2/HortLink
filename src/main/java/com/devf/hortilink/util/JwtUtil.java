@@ -15,7 +15,8 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1h
+	long tempoExpiracao = 1000L * 60 * 60 * 24 * 30;
+    private static final long EXPIRATION_TIME = 1000L * 60 * 60 * 24 * 15; //15 dias
 
     // Crie a chave uma única vez
     private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
