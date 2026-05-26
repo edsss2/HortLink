@@ -34,20 +34,21 @@ public class UsuarioDTO {
 			
 			ComercioProfile cp = usuario.getComercioProfile();
 			
-		    if (cp == null) {
-		        dto.cadastroIncompleto = true;
+			if (cp == null || cp.getNomeComercio() == null) { 
+		        dto.setCadastroIncompleto(true);
 		    } else {
-		    	
-		    	if(cp.getFotoPerfil() != null) {
-		    		dto.setUrlFotoPerfil(cp.getFotoPerfil().getCaminhoArquivo());
-		    	}
-		    	
+		        dto.setCadastroIncompleto(false);
+		        if(cp.getFotoPerfil() != null) {
+		            dto.setUrlFotoPerfil(cp.getFotoPerfil().getCaminhoArquivo());
+		        }
 		        dto.setComercioProfileId(cp.getId());
 		    }
 		    
 		    
 		} else {
-			dto.setUrlFotoPerfil(usuario.getFoto().getCaminhoArquivo());
+			if(dto.getUrlFotoPerfil() != null) {
+				dto.setUrlFotoPerfil(usuario.getFoto().getCaminhoArquivo());
+			}
 		}
 
 		

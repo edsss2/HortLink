@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.devf.hortilink.dto.RegistroDTO;
-import com.devf.hortilink.entity.Carrinho;
 import com.devf.hortilink.entity.ComercioProfile;
 import com.devf.hortilink.entity.Endereco;
 import com.devf.hortilink.entity.Foto;
@@ -77,11 +76,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 	        
 	        usuario.setComercioProfile(comercio);
 
-	    } else if (usuario.getRole() == Role.CONSUMIDOR) {
-	        
-	        Carrinho carrinho = new Carrinho();
-	        carrinho.setComprador(usuario);
-	        usuario.setCarrinho(carrinho);
 	    }
 
 	    // 4. Salva tudo em cascata (CascadeType.ALL fará o Hibernate salvar o Comércio e o Carrinho junto)

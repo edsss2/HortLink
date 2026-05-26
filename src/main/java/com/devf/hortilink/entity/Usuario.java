@@ -41,7 +41,7 @@ public class Usuario {
 	@JoinColumn(name = "endereco_id", nullable = true)
 	private Endereco endereco;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "comercio_profile_id", nullable = true)
 	private ComercioProfile comercioProfile;
 	
