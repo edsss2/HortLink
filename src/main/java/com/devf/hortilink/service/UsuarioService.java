@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.devf.hortilink.dto.PerfilCompradorDTO;
 import com.devf.hortilink.dto.RegistroDTO;
 import com.devf.hortilink.entity.Endereco;
 import com.devf.hortilink.entity.Foto;
@@ -21,4 +22,6 @@ public interface UsuarioService {
 	Foto buscarFotoPorId(Long id);
 	void atualizarEndereco(Long id, Endereco endereco);
 	void atualizarFoto(Long id, Foto foto);
+	PerfilCompradorDTO buscarPerfilPorId(Long id);
+	Usuario atualizarPerfil(Long id, PerfilCompradorDTO dto);
 }

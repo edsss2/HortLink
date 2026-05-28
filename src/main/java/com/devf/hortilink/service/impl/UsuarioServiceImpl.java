@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.devf.hortilink.dto.PerfilCompradorDTO;
 import com.devf.hortilink.dto.RegistroDTO;
 import com.devf.hortilink.entity.ComercioProfile;
 import com.devf.hortilink.entity.Endereco;
@@ -106,6 +107,36 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Boolean existeComEmail(String email) {
 		return repository.existsByEmail(email);
+	}
+
+	@Override
+	public PerfilCompradorDTO buscarPerfilPorId(Long id) {
+		Usuario usuario = repository.obterPerfilById(id).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado com ID: " + id));
+		
+		return new PerfilCompradorDTO().fromEntity(usuario);
+	}
+
+	@Override
+	public Usuario atualizarPerfil(Long id, PerfilCompradorDTO dto) {
+		Usuario usuario = buscarPorId(id);
+		usuario.setTelefone(dto.getTelefone());
+		usuario.setGenero(dto.getGenero());
+		
+		Endereco endereco = usuario.getEndereco();
+		if(endereco == null) {
+			endereco = new Endereco();
+		}
+		
+		endereco.setCep(dto.getCep());
+		endereco.setCidade(dto.getCidade());
+		endereco.setEstado(dto.getEstado());
+		endereco.setBairro(dto.getBairro());
+		endereco.setComplemento(dto.getComplemento());
+		
+		usuario.setEndereco(endereco);
+		return repository.save(usuario);
+		
 	}
 
 }

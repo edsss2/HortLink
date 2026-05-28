@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devf.hortilink.dto.CarrinhoResponseDTO;
+import com.devf.hortilink.dto.CheckoutRequestDTO;
 import com.devf.hortilink.dto.ItemCarrinhoResponseDTO;
 import com.devf.hortilink.entity.Carrinho;
 import com.devf.hortilink.entity.ComercioProfile;
@@ -107,7 +108,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
 	@Override
     @Transactional
-	public Pedido realizarCheckout(Long compradorId, String formaPagamento) {
+	public Pedido realizarCheckout(Long compradorId, CheckoutRequestDTO dto) {
 		Carrinho carrinho = obterCarrinhoAtivoService(compradorId);
 		Pedido pedido = new Pedido();
 		BigDecimal valorTotal = BigDecimal.ZERO;
@@ -116,6 +117,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 		pedido.setVendedor(obterComercio(carrinho));
 		pedido.setDataPedido(LocalDateTime.now());
 		pedido.setStatus(StatusPedido.PENDENTE);
+		pedido.setObservacoes(dto.getObservacoes());
 		
 		for(ItemCarrinho itemC : carrinho.getItens()) {
 			ItemPedido itemP = new ItemPedido();

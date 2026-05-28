@@ -1,6 +1,7 @@
 package com.devf.hortilink.service;
 
 import com.devf.hortilink.dto.CarrinhoResponseDTO;
+import com.devf.hortilink.dto.CheckoutRequestDTO;
 import com.devf.hortilink.entity.Pedido;
 
 public interface CarrinhoService {
@@ -10,5 +11,5 @@ public interface CarrinhoService {
 	CarrinhoResponseDTO atualizarQuantidadeItem(Long compradorId, Long idItem, Integer novaQuantidade);
 	CarrinhoResponseDTO removerItem(Long compradorId, Long idItem);
     void limparCarrinho(Long compradorId);
-    Pedido realizarCheckout(Long compradorId, String formaPagamento);
+    Pedido realizarCheckout(Long compradorId, CheckoutRequestDTO dto);
 }
