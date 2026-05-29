@@ -24,7 +24,7 @@ public class AuthService implements UserDetailsService {
         return User
                 .withUsername(usuario.getEmail())
                 .password(usuario.getSenha())
-                .roles("USER")
+                .roles(usuario.getRole().name())
                 .build();
 	}
 }

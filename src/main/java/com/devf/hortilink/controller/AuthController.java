@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devf.hortilink.dto.RegistroDTO;
-import com.devf.hortilink.dto.UsuarioDTO;
+import com.devf.hortilink.dto.UsuarioTokenDTO;
 import com.devf.hortilink.entity.Usuario;
 import com.devf.hortilink.service.UsuarioService;
 import com.devf.hortilink.util.JwtUtil;
@@ -37,13 +37,23 @@ public class AuthController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
             );
-
-            String token = jwtUtil.generateToken(request.getEmail());
-            Usuario usuarioLogado = usuarioService.buscarPorEmail(request.getEmail());
             
-            UsuarioDTO usuarioLogadoDto = UsuarioDTO.fromEntity(usuarioLogado);
-           
-            return ResponseEntity.ok(new AuthResponse(token, usuarioLogadoDto));
+            Usuario usuario = usuarioService.buscarPorEmail(request.getEmail());
+            String username = usuario.getEmail();
+            Long userId = usuario.getId();
+            String role = usuario.getRole().name();
+            Long commerceId = null;
+            // Corrige a comparação para CONSUMIDOR
+            if(!"CONSUMIDOR".equalsIgnoreCase(role)) {
+            	commerceId = usuario.getComercioProfile() != null ? usuario.getComercioProfile().getId() : null;
+            }
+
+            String token = jwtUtil.generateToken(username, userId, role, commerceId);
+
+            // Monta um DTO leve com os dados que o cliente pode precisar junto com o token
+            UsuarioTokenDTO tokenDto = new UsuarioTokenDTO(userId, role, commerceId, username);
+
+            return ResponseEntity.ok(new AuthResponse(token, tokenDto));
 
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos");
@@ -74,8 +84,8 @@ class AuthRequest {
 
 class AuthResponse {
     private String token;
-    private UsuarioDTO usuarioDto;
-    public AuthResponse(String token, UsuarioDTO dto){this.token = token;this.usuarioDto = dto;}
+    private UsuarioTokenDTO usuarioDto;
+    public AuthResponse(String token, UsuarioTokenDTO dto){this.token = token;this.usuarioDto = dto;}
     public String getToken(){return token;}
-    public UsuarioDTO getUsuario() {return usuarioDto;}
+    public UsuarioTokenDTO getUsuario() {return usuarioDto;}
 }

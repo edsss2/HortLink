@@ -11,11 +11,15 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 @Component // 1. MUITO IMPORTANTE: Torna o filtro um Bean do Spring
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -50,26 +54,41 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 5. Se temos um username E o usuário ainda não foi autenticado nesta requisição
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            
-            // 6. Busca o usuário no banco de dados (usando seu AuthService)
-            UserDetails userDetails = this.authService.loadUserByUsername(username);
 
-            // 7. Se o token for válido...
-            if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
-                
-                // 8. Cria a autenticação para o Spring
+            // Extraímos informações importantes diretamente do token para evitar consulta ao banco
+            String role = jwtUtil.extractRole(jwt);
+            Long userId = jwtUtil.extractUserId(jwt);
+            Long commerceId = jwtUtil.extractCommerceId(jwt);
+
+            // Se o token for válido (verifica assinatura/expiração e username)
+            if (jwtUtil.validateToken(jwt, username)) {
+                // Construímos um UserDetails simples usando os dados do token
+                List<SimpleGrantedAuthority> authorities = Collections.emptyList();
+                if (role != null) {
+                    authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
+                }
+
+                UserDetails userDetails = User.withUsername(username)
+                        .password("") // sem senha no token
+                        .authorities(authorities)
+                        .build();
+
+                // Cria a autenticação para o Spring
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null, // Senha (não necessária, estamos usando token)
-                    userDetails.getAuthorities()
-                );
-                
-                authToken.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request)
+                        userDetails,
+                        null, // Senha (não necessária, estamos usando token)
+                        userDetails.getAuthorities()
                 );
 
-                // 9. Coloca o usuário no Contexto de Segurança do Spring
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                // Coloca o usuário no Contexto de Segurança do Spring
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                
+                if (userId != null) request.setAttribute("userId", userId);
+                if (commerceId != null) request.setAttribute("commerceId", commerceId);
+                if (role != null) request.setAttribute("role", role);
             }
         }
         

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,6 +16,7 @@ import com.devf.hortilink.entity.Endereco;
 import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Usuario;
 import com.devf.hortilink.enums.Role;
+import com.devf.hortilink.repository.PedidoRepository;
 import com.devf.hortilink.repository.UsuarioRepository;
 import com.devf.hortilink.service.UsuarioService;
 
@@ -25,6 +27,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Autowired
 	private UsuarioRepository repository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -113,6 +117,21 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public PerfilCompradorDTO buscarPerfilPorId(Long id) {
 		Usuario usuario = repository.obterPerfilById(id).orElseThrow(
 				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado com ID: " + id));
+		
+		return new PerfilCompradorDTO().fromEntity(usuario);
+	}
+	
+	@Override
+	public PerfilCompradorDTO buscarPerfilClientePorId(Long clienteId, Long comercioId) {
+		boolean temVinculo = pedidoRepository.existsByClienteIdAndVendedorId(clienteId, comercioId);
+
+        if (!temVinculo) {
+            // Lança um erro 403 (Forbidden). O usuário logado não tem negócios com este cliente.
+            throw new AccessDeniedException("Acesso negado: Você não possui permissão para ver os dados deste cliente.");
+        }
+		
+		Usuario usuario = repository.obterPerfilById(clienteId).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado com ID: " + clienteId));
 		
 		return new PerfilCompradorDTO().fromEntity(usuario);
 	}
