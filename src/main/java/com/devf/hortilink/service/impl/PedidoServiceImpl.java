@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.devf.hortilink.dto.PedidoDTO;
 import com.devf.hortilink.entity.Pedido;
 import com.devf.hortilink.enums.StatusPedido;
 import com.devf.hortilink.repository.PedidoRepository;
@@ -30,8 +31,11 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public List<Pedido> listarPedidosDoComercio(Long comercioId) {
-        return repository.findByVendedorIdOrderByDataPedidoDesc(comercioId);
+    public List<PedidoDTO> listarPedidosDoComercio(Long comercioId) {
+        List<Pedido> pedidos = repository.findByVendedorIdOrderByDataPedidoDesc(comercioId);
+        return pedidos.stream()
+				.map(pedido -> new PedidoDTO().fromEntity(pedido))
+				.toList();
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -49,5 +50,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     List<Pedido> findByClienteIdOrderByDataPedidoDesc(Long clienteId);
     
     // Para o painel de vendas do comércio
+    @EntityGraph(attributePaths = {"itens"}, type = EntityGraph.EntityGraphType.FETCH)
     List<Pedido> findByVendedorIdOrderByDataPedidoDesc(Long vendedorId);
 }

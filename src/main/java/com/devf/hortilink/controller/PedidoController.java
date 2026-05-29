@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.devf.hortilink.dto.PedidoDTO;
 import com.devf.hortilink.entity.Pedido;
 import com.devf.hortilink.enums.StatusPedido;
 import com.devf.hortilink.service.PedidoService;
@@ -35,8 +36,8 @@ public class PedidoController {
     }
 
     @GetMapping("/comercio/{comercioId}")
-    public ResponseEntity<List<Pedido>> listarPorComercio(@PathVariable Long comercioId) {
-        List<Pedido> pedidos = pedidoService.listarPedidosDoComercio(comercioId);
+    public ResponseEntity<List<PedidoDTO>> listarPorComercio(@PathVariable Long comercioId) {
+        List<PedidoDTO> pedidos = pedidoService.listarPedidosDoComercio(comercioId);
         return ResponseEntity.ok(pedidos);
     }
 
