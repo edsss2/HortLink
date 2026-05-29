@@ -52,4 +52,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     // Para o painel de vendas do comércio
     @EntityGraph(attributePaths = {"itens"}, type = EntityGraph.EntityGraphType.FETCH)
     List<Pedido> findByVendedorIdOrderByDataPedidoDesc(Long vendedorId);
+    
+    // Para a verificação se o comercio pode visualizar os dados do cliente
+    boolean existsByClienteIdAndVendedorId(Long clienteId, Long vendedorId);
 }

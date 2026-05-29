@@ -1,6 +1,7 @@
 package com.devf.hortilink.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ public class PedidoDTO {
 	private StatusPedido status;
 	private BigDecimal valorTotal;
 	private String formaPagamento;
+	private LocalDateTime criadoEm;
 	private String observacoes;
 	private List<ItemPedidoDTO> itens;
 	
@@ -28,6 +30,7 @@ public class PedidoDTO {
 		dto.setValorTotal(pedido.getValorTotal());
 		dto.setFormaPagamento(pedido.getFormaPagamento());
 		dto.setObservacoes(pedido.getObservacoes());
+		dto.setCriadoEm(pedido.getDataPedido());
 		dto.setItens(pedido.getItens().stream()
 				.map(item -> new ItemPedidoDTO().fromEntity(item))
 				.collect(Collectors.toList()));

@@ -13,6 +13,7 @@ public class ItemPedidoDTO {
 	private String nomeProduto;
 	private Integer quantidade;
 	private BigDecimal precoUnitario;
+	private BigDecimal subtotal;
 	
 	public ItemPedidoDTO fromEntity(ItemPedido item) {
 		ItemPedidoDTO dto = new ItemPedidoDTO();
@@ -20,6 +21,7 @@ public class ItemPedidoDTO {
 		dto.setNomeProduto(item.getNomeProduto());
 		dto.setQuantidade(item.getQuantidade());
 		dto.setPrecoUnitario(item.getPrecoUnitario());
+		dto.setSubtotal(item.getSubtotal());
 		return dto;
 	}
 }
