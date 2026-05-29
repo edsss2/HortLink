@@ -23,5 +23,6 @@ public interface UsuarioService {
 	void atualizarEndereco(Long id, Endereco endereco);
 	void atualizarFoto(Long id, Foto foto);
 	PerfilCompradorDTO buscarPerfilPorId(Long id);
+	PerfilCompradorDTO buscarPerfilClientePorId(Long clienteId, Long comercioId);
 	Usuario atualizarPerfil(Long id, PerfilCompradorDTO dto);
 }
