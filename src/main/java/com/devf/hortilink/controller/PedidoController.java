@@ -48,11 +48,11 @@ public class PedidoController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Pedido> atualizarStatus(
-            @PathVariable Long id, 
-            @RequestParam StatusPedido novoStatus) {
+    public ResponseEntity<Void> atualizarStatus(
+            @PathVariable String id, 
+            @RequestParam("status") StatusPedido novoStatus) {
         
         Pedido pedidoAtualizado = pedidoService.atualizarStatus(id, novoStatus);
-        return ResponseEntity.ok(pedidoAtualizado);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -33,6 +33,11 @@ public class ComercioProfile {
 	private String nomeComercio;
 	private Integer raioMaximoEntregaKm;
 	private String telefone;
+	private String descricao;
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "endereco_id")
+    private Endereco endereco;
 	
 	@OneToMany(mappedBy = "comercio", cascade = CascadeType.ALL)
     private List<Oferta> ofertas;

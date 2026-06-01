@@ -2,6 +2,7 @@ package com.devf.hortilink.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -55,4 +56,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     
     // Para a verificação se o comercio pode visualizar os dados do cliente
     boolean existsByClienteIdAndVendedorId(Long clienteId, Long vendedorId);
+    
+    Optional<Pedido> findByCodigo(String codigo);
 }

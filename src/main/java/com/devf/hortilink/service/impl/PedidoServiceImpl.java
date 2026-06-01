@@ -24,6 +24,12 @@ public class PedidoServiceImpl implements PedidoService {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
     }
+    
+    @Override
+    public Pedido buscarPorId(String id) {
+        return repository.findByCodigo(id)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+    }
 
     @Override
     public List<Pedido> listarHistoricoDoCliente(Long clienteId) {
@@ -40,7 +46,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     @Transactional
-    public Pedido atualizarStatus(Long idPedido, StatusPedido novoStatus) {
+    public Pedido atualizarStatus(String idPedido, StatusPedido novoStatus) {
         Pedido pedido = buscarPorId(idPedido);
         
         pedido.setStatus(novoStatus);

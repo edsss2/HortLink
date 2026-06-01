@@ -1,7 +1,6 @@
 package com.devf.hortilink.dto;
 
 import com.devf.hortilink.entity.ComercioProfile;
-import com.devf.hortilink.entity.Endereco;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,16 +29,13 @@ public class ComercioDTO {
 	    dto.setImg_url(comercio.getFotoPerfil() != null ? comercio.getFotoPerfil().getCaminhoArquivo() : "");
 	    dto.setAvaliacao(gerarAvaliacaoFicticia());
 
-	    String cidade = "Cidade não informada"; // Valor padrão caso não encontre
+	    // ──────────────────────────────────────────────────────
+	    String cidade = "Cidade não informada"; 
 
-	    if (comercio.getUsers() != null && !comercio.getUsers().isEmpty()) {
-	        Endereco endereco = comercio.getUsers().get(0).getEndereco();
-	        
-	        // 3. Verifica se o usuário realmente tem um endereço salvo
-	        if (endereco != null && endereco.getCidade() != null) {
-	            cidade = endereco.getCidade();
-	        }	
-	    }
+	    // Agora pegamos o endereço diretamente do ComercioProfile
+	    if (comercio.getEndereco() != null && comercio.getEndereco().getCidade() != null) {
+	        cidade = comercio.getEndereco().getCidade();
+	    }	
 	    
 	    dto.setCidade(cidade);
 	    // ──────────────────────────────────────────────────────

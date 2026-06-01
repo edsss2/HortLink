@@ -9,10 +9,11 @@ import com.devf.hortilink.enums.StatusPedido;
 public interface PedidoService {
     
     Pedido buscarPorId(Long id);
+    Pedido buscarPorId(String id);
     
     List<Pedido> listarHistoricoDoCliente(Long clienteId);
     
     List<PedidoDTO> listarPedidosDoComercio(Long comercioId);
     
-    Pedido atualizarStatus(Long idPedido, StatusPedido novoStatus);
+    Pedido atualizarStatus(String idPedido, StatusPedido novoStatus);
 }
