@@ -54,5 +54,19 @@ public class Produto {
     private ComercioProfile comercio;
 	
 	private Boolean ativo = true; // Por padrão, o produto é ativo quando criado
+	
+	/**
+     * Verifica se o produto NÃO possui nenhuma foto válida associada.
+     * Funciona como um "isEmpty()" personalizado.
+     */
+    public boolean isSemFoto() {
+        return this.foto == null 
+            || this.foto.getCaminhoArquivo() == null 
+            || this.foto.getCaminhoArquivo().trim().isEmpty();
+    }
+
+    public boolean temFoto() {
+        return !isSemFoto();
+    }
 
 }

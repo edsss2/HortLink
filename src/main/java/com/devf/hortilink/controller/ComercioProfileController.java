@@ -37,13 +37,6 @@ public class ComercioProfileController {
 		return ResponseEntity.ok(comercios);
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<ComercioProfile> buscarPorId(@PathVariable Long id) {
-		ComercioProfile produto = service.buscarPorId(id);
-		
-		return ResponseEntity.ok(produto);
-	}
-	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> excluirPorId(@PathVariable Long id) {
 		service.excluirPorId(id);
@@ -57,6 +50,20 @@ public class ComercioProfileController {
     }
 	
 	@GetMapping
+	public ResponseEntity<ComercioDTO> getComercio(@RequestAttribute("commerceId") Long comercioId) {
+		ComercioDTO dto = service.buscarPorIdDTO(comercioId);
+		
+		return ResponseEntity.ok(dto);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<ComercioDTO> getComercioPorId(@PathVariable Long id) {
+		ComercioDTO dto = service.buscarPorIdDTO(id);
+		
+		return ResponseEntity.ok(dto);
+	}
+	
+	@GetMapping("/detalhes")
 	public ResponseEntity<CompletarPerfilComercioDTO> getPerfilComercio(@RequestAttribute("commerceId") Long comercioId) {
 		CompletarPerfilComercioDTO dto = service.buscarPerfilComercioPorId(comercioId);
 		

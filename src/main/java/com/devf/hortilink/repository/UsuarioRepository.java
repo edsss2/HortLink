@@ -17,5 +17,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	@EntityGraph(attributePaths = {
 			"endereco"
 	})
-	Optional<Usuario> obterPerfilById(Long id);
+	Optional<Usuario> findPerfilById(Long id);
 }

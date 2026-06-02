@@ -37,8 +37,6 @@ public class Usuario {
 	
 	private String telefone;
 	
-	private String genero;
-	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "endereco_id", nullable = true)
 	private Endereco endereco;

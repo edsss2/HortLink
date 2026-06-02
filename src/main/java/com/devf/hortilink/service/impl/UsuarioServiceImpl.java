@@ -61,9 +61,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Transactional // Garante que se der erro no meio, ele desfaz tudo (rollback)
 	public Usuario salvar(RegistroDTO dto) {
 	    
-	    // 1. (Opcional) Verificar se o e-mail já existe para evitar erro 500 do banco
 	    if (repository.findByEmail(dto.getEmail()).isPresent()) {
-	        throw new RuntimeException("Este e-mail já está em uso."); // Trate na sua exception global
+	    	throw new ResponseStatusException(HttpStatus.CONFLICT, "Este e-mail já está em uso.");
 	    }
 
 	    // 2. Mapeamento básico
@@ -94,14 +93,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		return usuario.getFoto();
 	}
-
-	@Override
-	public void atualizarEndereco(Long id, Endereco endereco) {
-		Usuario usuario = buscarPorId(id);
-		usuario.setEndereco(endereco);
-		repository.save(usuario);
-	}
-
+	
 	@Override
 	public void atualizarFoto(Long id, Foto foto) {
 		// TODO Auto-generated method stub
@@ -115,7 +107,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public PerfilCompradorDTO buscarPerfilPorId(Long id) {
-		Usuario usuario = repository.obterPerfilById(id).orElseThrow(
+		Usuario usuario = repository.findPerfilById(id).orElseThrow(
 				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado com ID: " + id));
 		
 		return new PerfilCompradorDTO().fromEntity(usuario);
@@ -130,17 +122,16 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new AccessDeniedException("Acesso negado: Você não possui permissão para ver os dados deste cliente.");
         }
 		
-		Usuario usuario = repository.obterPerfilById(clienteId).orElseThrow(
+		Usuario usuario = repository.findPerfilById(clienteId).orElseThrow(
 				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado com ID: " + clienteId));
 		
 		return new PerfilCompradorDTO().fromEntity(usuario);
 	}
 
 	@Override
-	public Usuario atualizarPerfil(Long id, PerfilCompradorDTO dto) {
+	public PerfilCompradorDTO atualizarPerfil(Long id, PerfilCompradorDTO dto) {
 		Usuario usuario = buscarPorId(id);
 		usuario.setTelefone(dto.getTelefone());
-		usuario.setGenero(dto.getGenero());
 		
 		Endereco endereco = usuario.getEndereco();
 		if(endereco == null) {
@@ -154,7 +145,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		endereco.setComplemento(dto.getComplemento());
 		
 		usuario.setEndereco(endereco);
-		return repository.save(usuario);
+		usuario = repository.save(usuario);
+		return new PerfilCompradorDTO().fromEntity(usuario);
 		
 	}
 

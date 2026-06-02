@@ -56,26 +56,49 @@ public class ProdutoServiceImpl implements ProdutoService {
 	}
 
 	@Override
-	@Transactional 
-	public void salvar(String emailUsuario, ProdutoFormDTO formData, MultipartFile imagem) {
-	    Usuario usuario = userService.buscarPorEmail(emailUsuario);
-	    ComercioProfile comercioProfile = usuario.getComercioProfile();
+	@Transactional
+	public Produto salvar(Long comercioid, ProdutoFormDTO formData, MultipartFile imagem) {
+		Produto produto = new Produto();
+		produto.setNome(formData.getNome());
+		produto.setDescricao(formData.getDescricao());
+		produto.setCategoria(formData.getCategoria());
+		produto.setUnidadeMedida(formData.getUnidadeMedida());
+		
+		ComercioProfile comercioProfile = new ComercioProfile();
+		comercioProfile.setId(comercioid);
+		produto.setComercio(comercioProfile);
 
-	    Produto produto = new Produto();
-	    produto.setNome(formData.getNome());
-	    produto.setDescricao(formData.getDescricao());
-	    produto.setCategoria(formData.getCategoria());
-	    produto.setUnidadeMedida(formData.getUnidadeMedida());
-	    produto.setComercio(comercioProfile);
+		Produto produtoSalvo = repository.save(produto);
 
+		Foto foto = fotoService.salvarFotoProduto(imagem, produtoSalvo);
+		produtoSalvo.setFoto(foto);
 
-	    Produto produtoSalvo = repository.save(produto);
+		return repository.save(produtoSalvo);
+	}
 
-	    Foto foto = fotoService.salvarFotoProduto(imagem, produtoSalvo); 
-	    produto.setFoto(foto);
-	    
-	    repository.save(produto);
+	@Override
+	@Transactional
+	public Produto atualizar(Long comercioId, Long id, ProdutoFormDTO formData, MultipartFile imagem) {
+		Produto produto = buscarPorId(id);
 
+		if (produto.getComercio() == null || !produto.getComercio().getId().equals(comercioId)) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Produto não pertence a este comércio");
+		}
+
+		produto.setNome(formData.getNome());
+		produto.setDescricao(formData.getDescricao());
+		produto.setCategoria(formData.getCategoria());
+		produto.setUnidadeMedida(formData.getUnidadeMedida());
+
+		Produto produtoSalvo = repository.save(produto);
+
+		if (imagem != null && !imagem.isEmpty()) {
+			Foto foto = fotoService.salvarFotoProduto(imagem, produtoSalvo);
+			produtoSalvo.setFoto(foto);
+			produtoSalvo = repository.save(produtoSalvo);
+		}
+
+		return produtoSalvo;
 	}
 
 	@Override

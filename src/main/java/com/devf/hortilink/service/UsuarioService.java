@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.devf.hortilink.dto.PerfilCompradorDTO;
 import com.devf.hortilink.dto.RegistroDTO;
-import com.devf.hortilink.entity.Endereco;
 import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Usuario;
 
@@ -20,9 +19,8 @@ public interface UsuarioService {
 	Usuario salvar(RegistroDTO usuario);
 	Boolean existeComEmail(String email);
 	Foto buscarFotoPorId(Long id);
-	void atualizarEndereco(Long id, Endereco endereco);
+	PerfilCompradorDTO atualizarPerfil(Long id, PerfilCompradorDTO dto);
 	void atualizarFoto(Long id, Foto foto);
 	PerfilCompradorDTO buscarPerfilPorId(Long id);
 	PerfilCompradorDTO buscarPerfilClientePorId(Long clienteId, Long comercioId);
-	Usuario atualizarPerfil(Long id, PerfilCompradorDTO dto);
 }

@@ -13,7 +13,8 @@ public interface ProdutoService {
 
 	List<ProdutoListaDTO> listarProdutosPorComercio(Long comercioId);
 	List<ProdutoListaDTO> listarProdutosSemOfertaAtiva(Long comercioId);
-	void salvar(String emailUsuario, ProdutoFormDTO formData, MultipartFile imagem);
+	Produto salvar(Long comercioid, ProdutoFormDTO formData, MultipartFile imagem);
+	Produto atualizar(Long comercioId, Long id, ProdutoFormDTO formData, MultipartFile imagem);
 	Produto buscarPorId(Long id);
 	Produto	excluirPorId(Long id);
 	Foto buscarFotoPorId(Long id);

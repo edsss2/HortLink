@@ -148,4 +148,12 @@ public class ComercioProfileServiceImpl implements ComercioProfileService {
 		return new CompletarPerfilComercioDTO().fromEntity(comercio);
 	}
 
+	@Override
+	public ComercioDTO buscarPorIdDTO(Long id) {
+		ComercioProfile comercio = repository.findPerfilCompletoById(id).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comércio não encontrado com o ID: " + id));
+		
+		return new ComercioDTO().fromEntity(comercio);
+	}
+
 }

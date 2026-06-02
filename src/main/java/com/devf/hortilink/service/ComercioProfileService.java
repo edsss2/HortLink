@@ -14,6 +14,7 @@ public interface ComercioProfileService {
 	ComercioProfile buscarPorId(Long id);
 	ComercioProfile excluirPorId(Long id);
 	ComercioProfile completarPerfil(CompletarPerfilComercioDTO dto, Long idUsuario);
+	ComercioDTO buscarPorIdDTO(Long id);
 	List<ComercioDTO> listarPorCidade(String cidade);
 	CompletarPerfilComercioDTO buscarPerfilComercioPorId(Long id);
 	//ComercioProfile salvar(ComercioDTO comercioProfile, Usuario usuario);

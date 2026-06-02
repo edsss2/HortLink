@@ -16,7 +16,7 @@ public interface OfertaRepository extends JpaRepository<Oferta, Long> {
 
 	List<Oferta> findByProdutoIdIn(List<Long> productIds);
 	
-	@EntityGraph(attributePaths = {"produto", "produto.foto", "comercio", "comercio.endreco"})
+	@EntityGraph(attributePaths = {"produto", "produto.foto", "comercio", "comercio.endereco"})
     @Query("SELECT o FROM Oferta o")
     List<Oferta> buscarTodasOfertasParaApp();
 	
@@ -32,4 +32,14 @@ public interface OfertaRepository extends JpaRepository<Oferta, Long> {
 	@Query("SELECT o FROM Oferta o WHERE o.id = :id")
 	Optional<Oferta> buscarOfertaDetalhadaPorId(@Param("id") Long id);
 	
+	@EntityGraph(attributePaths = {"produto", "produto.foto"})
+	Optional<Oferta> findOfertaParaEdicaoById(@Param("id") Long id);
+	
+	/**
+     * Verifica se existe uma Oferta específica vinculada a um Comércio específico.
+     * Útil para validação de segurança antes de edições ou exclusões.
+     */
+    boolean existsByIdAndComercioId(Long idOferta, Long comercioId);
+    
+    boolean existsByComercioIdAndProdutoIdAndDisponivelParaVendaTrue(Long comercioId, Long produtoId);
 }
