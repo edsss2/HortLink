@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Oferta;
 import com.devf.hortilink.entity.Produto;
+import com.devf.hortilink.enums.Categoria;
+import com.devf.hortilink.enums.UnidadeMedida;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,27 +23,32 @@ public class OfertaDTO {
 	private String nome;
 	private BigDecimal preco;
 	private BigDecimal promocao;
-	private String categoria;
-	private String fotoUrl;
+	private Categoria categoria;
+	private String imagemUrl;
 	private String descricao;
-	private String unidade;
+	private UnidadeMedida unidade;
 	
-	public OfertaDTO fromEntity(Oferta oferta) {
+	private Double latitude;
+	private Double longitude;
+	
+	public static OfertaDTO fromEntity(Oferta oferta) {
 		OfertaDTO dto = new OfertaDTO();
 		Produto produto = oferta.getProduto();
 		dto.setId(oferta.getId());
 		dto.setNome(produto.getNome());
 		dto.setPreco(oferta.getValor());
 		dto.setPromocao(oferta.getPromocao());
-		dto.setCategoria(produto.getCategoria().getNome());
+		dto.setCategoria(produto.getCategoria());
 		dto.setDescricao(produto.getDescricao());
-		dto.setUnidade(produto.getUnidadeMedida().getLabel());
+		dto.setUnidade(produto.getUnidadeMedida());
+		dto.setLatitude(oferta.getComercio().getEndereco().getLatitude());
+		dto.setLongitude(oferta.getComercio().getEndereco().getLongitude());
 		
 		Foto fotoPrincipal = produto.getFoto();
 		if (fotoPrincipal != null) {
-		    dto.setFotoUrl(fotoPrincipal.getCaminhoArquivo());
+		    dto.setImagemUrl(fotoPrincipal.getCaminhoArquivo());
 		} else {
-		    dto.setFotoUrl(null); // ou uma URL de imagem padrão "sem_foto.png"
+		    dto.setImagemUrl(null); // ou uma URL de imagem padrão "sem_foto.png"
 		}
 		
 		return dto;

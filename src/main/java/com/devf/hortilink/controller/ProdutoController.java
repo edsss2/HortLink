@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.devf.hortilink.dto.ProdutoFormDTO;
+import com.devf.hortilink.dto.ProdutoListaDTO;
 import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Produto;
 import com.devf.hortilink.service.ProdutoService;
@@ -28,9 +30,15 @@ public class ProdutoController {
 	private ProdutoService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Produto>> listarProdutos(Principal principal) {
-		String emailUsuario = principal.getName();
-		List<Produto> produtos = service.listarProdutosPorComercio(emailUsuario);
+	public ResponseEntity<List<ProdutoListaDTO>> listarProdutos(@RequestAttribute("commerceId") Long comercioId) {
+		List<ProdutoListaDTO> produtos = service.listarProdutosPorComercio(comercioId);
+		
+		return ResponseEntity.ok(produtos);
+	}
+	
+	@GetMapping("/sem-oferta")
+	public ResponseEntity<List<ProdutoListaDTO>> listarProdutosSemOfertaAtiva(@RequestAttribute("commerceId") Long comercioId) {
+		List<ProdutoListaDTO> produtos = service.listarProdutosSemOfertaAtiva(comercioId);
 		
 		return ResponseEntity.ok(produtos);
 	}

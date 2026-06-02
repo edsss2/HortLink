@@ -52,8 +52,8 @@ public class OfertaServiceImpl implements OfertaService {
 	public List<OfertaDTO> listarOfertasParaApp() {
 		List<Oferta> ofertas = repository.buscarTodasOfertasParaApp();
 		return ofertas.stream()
-                .map(oferta -> new OfertaDTO().fromEntity(oferta))
-                .collect(Collectors.toList());
+                .map(OfertaDTO::fromEntity)
+                .toList();
 	}
 	
 	@Override
@@ -68,8 +68,8 @@ public class OfertaServiceImpl implements OfertaService {
 		List<Oferta> ofertas = repository.buscarOfertasByComercioId(id);
 		
 		return ofertas.stream()
-				.map(oferta -> new OfertaDTO().fromEntity(oferta))
-				.collect(Collectors.toList());
+				.map(OfertaDTO::fromEntity)
+				.toList();
 	}
 
 

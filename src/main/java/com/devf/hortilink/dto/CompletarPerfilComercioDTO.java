@@ -17,6 +17,8 @@ public class CompletarPerfilComercioDTO {
 	private String complemento;
 	private String estado;
 	private String descricao;
+	private Double latitude;
+	private Double longitude;
 	
 	public CompletarPerfilComercioDTO fromEntity(ComercioProfile entity) {
 		Endereco endereco = entity.getEndereco();
@@ -25,6 +27,8 @@ public class CompletarPerfilComercioDTO {
 		dto.setComercioId(entity.getId());
 		dto.setTelefone(entity.getTelefone());
 		dto.setDescricao(entity.getDescricao());
+		dto.setLatitude(endereco.getLatitude());
+		dto.setLongitude(endereco.getLongitude());
 		
 		dto.setCep(endereco.getCep());
 		dto.setCidade(endereco.getCidade());

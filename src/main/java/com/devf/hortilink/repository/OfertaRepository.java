@@ -16,7 +16,7 @@ public interface OfertaRepository extends JpaRepository<Oferta, Long> {
 
 	List<Oferta> findByProdutoIdIn(List<Long> productIds);
 	
-	@EntityGraph(attributePaths = {"produto", "produto.foto"})
+	@EntityGraph(attributePaths = {"produto", "produto.foto", "comercio", "comercio.endreco"})
     @Query("SELECT o FROM Oferta o")
     List<Oferta> buscarTodasOfertasParaApp();
 	

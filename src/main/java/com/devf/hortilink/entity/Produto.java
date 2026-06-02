@@ -52,5 +52,7 @@ public class Produto {
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comercio_profile_id", nullable = false) // nullable = false garante que todo produto tenha um dono
     private ComercioProfile comercio;
+	
+	private Boolean ativo = true; // Por padrão, o produto é ativo quando criado
 
 }

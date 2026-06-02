@@ -125,6 +125,8 @@ public class ComercioProfileServiceImpl implements ComercioProfileService {
 		comercio.getEndereco().setBairro(dto.getBairro());
 		comercio.getEndereco().setComplemento(dto.getComplemento());
 		comercio.getEndereco().setEstado(dto.getEstado());
+		comercio.getEndereco().setLatitude(dto.getLatitude());
+		comercio.getEndereco().setLongitude(dto.getLongitude());
 		
 		return repository.save(comercio);
 	}

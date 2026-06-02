@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.devf.hortilink.dto.ProdutoFormDTO;
+import com.devf.hortilink.dto.ProdutoListaDTO;
 import com.devf.hortilink.entity.ComercioProfile;
 import com.devf.hortilink.entity.Foto;
 import com.devf.hortilink.entity.Produto;
@@ -33,11 +34,12 @@ public class ProdutoServiceImpl implements ProdutoService {
 	private FotoService fotoService;
 
 	@Override
-	public List<Produto> listarProdutosPorComercio(String emailUsuario) {
-		Usuario usuario = userService.buscarPorEmail(emailUsuario);
-	    Long comercioId = usuario.getComercioProfile().getId();
+	public List<ProdutoListaDTO> listarProdutosPorComercio(Long comercioId) {
+		List<Produto> produtos = repository.findByComercioId(comercioId);
 	    
-		return repository.findByComercioId(comercioId);
+		return produtos.stream()
+	            .map(ProdutoListaDTO::fromEntity)
+	            .toList();
 	}
 
 	@Override
@@ -80,6 +82,15 @@ public class ProdutoServiceImpl implements ProdutoService {
 	public Foto buscarFotoPorId(Long id) {
 		Produto produto = buscarPorId(id);
 		return produto.getFoto();
+	}
+
+	@Override
+	public List<ProdutoListaDTO> listarProdutosSemOfertaAtiva(Long comercioId) {
+		 List<Produto> produtos = repository.buscarProdutosSemOfertaAtiva(comercioId);
+		    
+		 return produtos.stream()
+		            .map(ProdutoListaDTO::fromEntity)
+		            .toList();
 	}
 
 }
