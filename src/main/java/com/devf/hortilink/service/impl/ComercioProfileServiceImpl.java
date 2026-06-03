@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.devf.hortilink.dto.ComercioDTO;
 import com.devf.hortilink.dto.CompletarPerfilComercioDTO;
 import com.devf.hortilink.entity.ComercioProfile;
+import com.devf.hortilink.entity.Endereco;
 import com.devf.hortilink.entity.Oferta;
 import com.devf.hortilink.entity.Produto;
 import com.devf.hortilink.repository.ComercioProfileRepository;
@@ -114,19 +115,26 @@ public class ComercioProfileServiceImpl implements ComercioProfileService {
 	@Override
 	public ComercioProfile completarPerfil(CompletarPerfilComercioDTO dto, Long idUsuario) {
 		ComercioProfile comercio = buscarPorId(dto.getComercioId());
+		Endereco endereco = null;
 		
 		comercio.setNomeComercio(dto.getNomeComercio());
 		comercio.setTelefone(dto.getTelefone());
 		comercio.setDescricao(dto.getDescricao());
 		comercio.setUser(usuarioService.buscarPorId(idUsuario));
 		
-		comercio.getEndereco().setCep(dto.getCep());
-		comercio.getEndereco().setCidade(dto.getCidade());
-		comercio.getEndereco().setBairro(dto.getBairro());
-		comercio.getEndereco().setComplemento(dto.getComplemento());
-		comercio.getEndereco().setEstado(dto.getEstado());
-		comercio.getEndereco().setLatitude(dto.getLatitude());
-		comercio.getEndereco().setLongitude(dto.getLongitude());
+		if(comercio.getEndereco() == null) {
+			endereco = new Endereco();
+			comercio.setEndereco(endereco);
+		} else {
+			endereco = comercio.getEndereco();
+		}
+		endereco.setCep(dto.getCep());
+		endereco.setCidade(dto.getCidade());
+		endereco.setBairro(dto.getBairro());
+		endereco.setComplemento(dto.getComplemento());
+		endereco.setEstado(dto.getEstado());
+		endereco.setLatitude(dto.getLatitude());
+		endereco.setLongitude(dto.getLongitude());
 		
 		return repository.save(comercio);
 	}

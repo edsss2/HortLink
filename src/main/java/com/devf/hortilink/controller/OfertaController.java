@@ -35,6 +35,20 @@ public class OfertaController {
         return ResponseEntity.ok(ofertas);
     }
 	
+	@GetMapping("/comercio/{comercioId}")
+	public ResponseEntity<List<OfertaDTO>> listarOfertasDoComercio(@PathVariable Long comercioId) {
+		List<OfertaDTO> ofertas = service.buscarOfertasPorComercioId(comercioId);
+		
+		return ResponseEntity.ok(ofertas);
+	}
+	
+	@GetMapping("/comercio")
+	public ResponseEntity<List<OfertaDTO>> listarOfertasDoProprioComercio(@RequestAttribute("commerceId") Long comercioId) {
+		List<OfertaDTO> ofertas = service.buscarOfertasPorComercioId(comercioId);
+		
+		return ResponseEntity.ok(ofertas);
+	}
+	
 	@PostMapping("/salvar")
 	public ResponseEntity<OfertaDTO> salvarOferta(@RequestAttribute("commerceId") Long comercioId, @RequestBody NovaOfertaDTO dto) {
 		OfertaDTO salvo = service.salvar(comercioId, dto);

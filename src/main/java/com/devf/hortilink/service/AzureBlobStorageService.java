@@ -38,6 +38,10 @@ public class AzureBlobStorageService {
 
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
         
+        if (!containerClient.exists()) {
+            containerClient.create();
+        }
+        
         // 1. Gerar o nome único com a extensão
         String originalFilename = file.getOriginalFilename();
         String extensao = (originalFilename != null && originalFilename.contains(".")) 

@@ -48,8 +48,8 @@ public class SecurityConfig {
                 
                 .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                 
-                //.anyRequest().authenticated()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
+                //.anyRequest().permitAll()
             )
             .headers(headers -> headers
                 .frameOptions(frame -> frame.disable())

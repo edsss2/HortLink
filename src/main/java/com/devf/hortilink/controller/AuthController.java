@@ -48,10 +48,12 @@ public class AuthController {
             	commerceId = usuario.getComercioProfile() != null ? usuario.getComercioProfile().getId() : null;
             }
 
+            boolean isCadastroIncompleto = (usuario.getEndereco() == null);
+            
             String token = jwtUtil.generateToken(username, userId, role, commerceId);
 
             // Monta um DTO leve com os dados que o cliente pode precisar junto com o token
-            UsuarioTokenDTO tokenDto = new UsuarioTokenDTO(userId, role, commerceId, username);
+            UsuarioTokenDTO tokenDto = new UsuarioTokenDTO(userId, role, commerceId, username, isCadastroIncompleto);
 
             return ResponseEntity.ok(new AuthResponse(token, tokenDto));
 
